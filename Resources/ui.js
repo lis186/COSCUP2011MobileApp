@@ -273,7 +273,6 @@
 		return win;
 	}
 	
-	//TODO: add Stared function
 	coscup.ui.createProgramListWin = function(option, type){
 		var win = Titanium.UI.createWindow(option);
 		win.barColor = '#408937';
@@ -424,13 +423,14 @@
 					infoContainer.height = 150;
 				}
 				
-				infoContainer.add(colorDot);
-				infoContainer.add(programTypeLabel);
+				
+				infoContainer.add(starImageView);
 				infoContainer.add(nameLabel);
 				infoContainer.add(timeRoomLabel);
-				if(program.type != 0)
+				if(program.type !== 0)
 				{
-					infoContainer.add(starImageView);
+					infoContainer.add(colorDot);
+					infoContainer.add(programTypeLabel);
 				}
 				
 				var html = '<div style="font-family: Arial">';
@@ -707,14 +707,15 @@
 				left: 58,
 				top: 10	
 			});
-			row.add(colorDot);
-			row.add(programTypeLabel);
+			
 			row.add(nameLabel);
 			row.add(timeRoomLabel);
+			row.add(starImageView);
 			
 			if(row.type > 0)
 			{
-				row.add(starImageView);
+				row.add(colorDot);
+				row.add(programTypeLabel);
 			}
 			
 			var theDay;
@@ -788,14 +789,10 @@
 	
 	coscup.ui.createProgramTypeTableView = function(){
 		var programTypes = coscup.data.programTypes;
+		programTypes[0] = _('all_programs');
 		var data = [];
 		for(var i = 0, l = programTypes.length; i < l; i++){
 			var programType = programTypes[i];
-			
-			if(programType === null)
-			{
-				programType = _('all_programs');
-			} 
 			var row = Titanium.UI.createTableViewRow({
 				height: 'auto',
 				backgroundColor: '#fff'
