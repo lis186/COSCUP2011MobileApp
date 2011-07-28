@@ -1163,7 +1163,87 @@
 		win.navBarHidden = false;
 		win.tabBarHidden = true;
 		var webview = Titanium.UI.createWebView({url: option.webUrl});
+		webview.currentUrl = option.webUrl;
 		win.add(webview);
+		
+		if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+			var flexSpace = Titanium.UI.createButton({
+				systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
+			});
+			
+			var backButton = Titanium.UI.createButton({
+				image: 'images/back.png'
+			});
+			
+			var reloadButton = Titanium.UI.createButton({
+				systemButton: Titanium.UI.iPhone.SystemButton.REFRESH
+			});
+			
+			var stopButton = Titanium.UI.createButton({
+				systemButton:Titanium.UI.iPhone.SystemButton.STOP
+			});
+			
+			var forwardButton = Titanium.UI.createButton({
+				systemButton: Titanium.UI.iPhone.SystemButton.PLAY
+			});
+			
+			var actionButton = Titanium.UI.createButton({
+				systemButton: Titanium.UI.iPhone.SystemButton.ACTION
+			});
+
+			win.setToolbar([backButton, flexSpace, forwardButton, flexSpace, stopButton, flexSpace, actionButton]);
+			
+			function updateToolbar(){
+				if(webview.canGoBack()){
+					backButton.enabled = true;
+				}else{
+					backButton.enabled = false;
+				}
+				
+				if(webview.canGoForward()){
+					forwardButton.enabled = true;
+				}else{
+					forwardButton.enabled = false;
+				}
+			}
+			
+			updateToolbar();
+			
+			webview.addEventListener('load', function(e)
+			{
+				Ti.API.debug("url = "+webview.url);
+				Ti.API.debug("event url = "+e.url);
+				webview.currentUrl = e.url;
+				win.setToolbar([backButton, flexSpace, forwardButton, flexSpace, reloadButton, flexSpace, actionButton]);
+				updateToolbar();
+			});
+			
+			backButton.addEventListener('click', function () {
+				if(webview.canGoBack()){
+					webview.goBack();
+				}
+			});
+			
+			forwardButton.addEventListener('click', function () {
+				if(webview.canGoForward()){
+					webview.goForward();
+				}
+			});
+
+			reloadButton.addEventListener('click', function () {
+				webview.reload();
+				win.setToolbar([backButton, flexSpace, forwardButton, flexSpace, stopButton, flexSpace, actionButton]);	
+			});
+			
+			stopButton.addEventListener('click', function () {
+				webview.stopLoading();
+				win.setToolbar([backButton, flexSpace, forwardButton, flexSpace, reloadButton, flexSpace, actionButton]);
+			});
+			
+			actionButton.addEventListener('click', function () {
+				Titanium.Platform.openURL(webview.currentUrl);
+			});
+		}
 		return win;
 	}
 	
