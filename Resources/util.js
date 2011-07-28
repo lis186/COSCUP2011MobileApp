@@ -19,6 +19,43 @@
 		});
 	};
 	
+	
+	///http://www.tutorialspoint.com/javascript/array_indexof.htm
+	
+	if (!Array.prototype.indexOf)
+	{
+	  Array.prototype.indexOf = function(elt /*, from*/)
+	  {
+	    var len = this.length;
+	
+	    var from = Number(arguments[1]) || 0;
+	    from = (from < 0)
+	         ? Math.ceil(from)
+	         : Math.floor(from);
+	    if (from < 0)
+	      from += len;
+	
+	    for (; from < len; from++)
+	    {
+	      if (from in this &&
+	          this[from] === elt)
+	        return from;
+	    }
+	    return -1;
+	  };
+	}
+	
+	Array.prototype.removeItem = function(index) { 
+	var i = 0; 
+	while (i < this.length) { 
+		if (this[i] == index) { 
+			this.splice(i, 1); 
+		} else { 
+				i++; 
+			} 
+		} 
+	} 
+	
 	///
 	String.prototype.trim = function(){
 		return this.replace(/^\s+|\s+$/g,"");

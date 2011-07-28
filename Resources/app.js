@@ -1,3 +1,4 @@
+Titanium.UI.setBackgroundColor = '#676835';
 var coscup = {};
 coscup.osname = Titanium.Platform.osname;
 //TODO: need to fix lunch first time bug
@@ -15,16 +16,10 @@ if(coscup.data.needUpdate())
 		Ti.API.info('program:' + coscup.data.program);
 		Ti.API.info('programTypes:' + coscup.data.programTypes);
 		Ti.API.info('programRooms:' + coscup.data.programRooms);
-		Ti.API.info('sponsors:' + coscup.data.sponsors);	
-		coscup.appTabGroup = coscup.ui.createAppTabGroup();
-		coscup.appTabGroup.open();
+		coscup.ui.init();
 	});
 }else{
 	Ti.API.info('No need to update');
 	coscup.data.loadData();
-	coscup.appTabGroup = coscup.ui.createAppTabGroup();
-	coscup.appTabGroup.open();
+	coscup.ui.init();
 }
-
-
-	

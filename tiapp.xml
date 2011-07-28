@@ -8,7 +8,7 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <id>co.herxun.coscup2011</id>
-    <name>COCSUP 2011</name>
+    <name>COSCUP 2011</name>
     <version>1.0</version>
     <publisher>Herxun</publisher>
     <url>http://www.herun.co</url>
