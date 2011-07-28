@@ -58,7 +58,7 @@
 				break;
 			
 			case 'ipad':
-				coscup.appTabGroup = coscup.ui.createAppSplitWindow();
+				coscup.appTabGroup = coscup.ui.createAppTabGroup();
 				coscup.appTabGroup.open();
 				break;
 			
