@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0055)http://www.idev101.com/code/Distribution/checklist.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>iPhone Development 101: Checklist for Submitting an App to the App Store</title>
+    <link rel="stylesheet" href="http://www.idev101.com/i.css">
+    <link rel="shortcut icon" href="http://www.idev101.com/dev/favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="RSS News Feed" href="http://feeds.feedburner.com/idev101">
+    
+
+    <script src="./Checklist for Submitting an App to the App Store_files/Ajax.js" language="javascript"></script>
+    <script src="./Checklist for Submitting an App to the App Store_files/cform.js" language="javascript"></script>
+    <script src="./Checklist for Submitting an App to the App Store_files/jquery.js" language="javascript"></script>
+
+<script language="javascript">
+<!--
+
+function showMe(theURL, width, height, windowName) { 
+    if (!width) { 
+        width = 650;
+    } else {
+        width = width + 20;
+    }
+    if (!height) { 
+        height = 650; 
+    } else {
+        height = height + 20;
+    }
+    if (!windowName) {
+        windowName = theURL;
+    }
+    infoWin = window.open(theURL,windowName,'toolbar=0,location=0,directories=0,status=1,menubar=0,scrollbars=1,resizable=1,width=' + width + ',height=' + height);
+    infoWin.focus();
+}
+
+//-->
+</script>
+
+</head>
+<body>
+
+
+<div id="main2">
+
+<div id="hdr">
+<a href="http://www.idev101.com/"><img src="./Checklist for Submitting an App to the App Store_files/ilogo.gif" alt="iPhone Development 101" border="0" width="499" height="82"></a>
+</div>
+
+  <div id="linx">
+    <div class="lsec">
+    <a href="http://www.idev101.com/">Home</a><br>
+</div>
+
+<p class="usec">iPhone 101</p>
+<div class="lsec">
+    <a href="http://www.idev101.com/learn/">Learn to Write Apps</a><br>
+    <a href="http://www.idev101.com/learn_iphone_programming.html">Books &amp; Other Resources</a><br>
+</div>
+
+<p class="usec">Code Tips</p>
+<div class="lsec">
+    <a href="http://www.idev101.com/code/Objective-C/">Objective-C</a><br>
+    <a href="http://www.idev101.com/code/User_Interface/">User Interface</a><br>
+    <a href="http://www.idev101.com/code/Distribution/">Distribution</a><br>
+    <a href="http://www.idev101.com/code/Marketing/">Marketing</a><br>
+    <!-- subsec:
+    <div class="lsec">
+    </div>
+    -->
+</div>
+
+<p class="usec">Resources</p>
+<div class="lsec">
+  <a href="http://www.idev101.com/icons.html">Buttons &amp; Icons</a><br>
+  <a href="http://www.idev101.com/libraries.html">Open Source Libraries</a><br>
+  <a href="http://www.idev101.com/cards/">Quick Reference Cards</a>
+</div>
+
+<p class="usec">Links</p>
+<div class="lsec">
+  <a target="_blank" href="http://developer.apple.com/iphone/">Apple: iPhone Dev Center</a><br>
+  <a target="_blank" href="https://devforums.apple.com/community/iphone">Apple: iPhone Forums</a><br>
+  <a href="http://www.idev101.com/conferences.html">Conferences &amp; Classes</a><br>
+  <a href="http://www.idev101.com/#links">More...</a><br>  
+</div>
+
+<p class="usec">Subscribe</p>
+
+<div style="padding-left: 10px; margin-bottom: 10px;">
+   <a style="margin: 0px; padding: 2px;" target="_blank" href="http://twitter.com/idev101">Twitter</a> •
+   <a style="margin: 0px; padding: 2px;" target="_blank" href="http://feeds.feedburner.com/idev101">RSS</a> •
+   <a style="margin: 0px; padding: 2px;" target="_blank" href="http://feedburner.google.com/fb/a/mailverify?uri=idev101&loc=en_US">E-mail</a>
+</div>
+
+<p class="usec">More</p>
+<div class="lsec">
+  <a href="mailto:kira@lightsphere.com">Contact</a><br>
+  <a href="http://www.idev101.com/search.html">Search This Site</a>
+</div>
+
+  </div>
+
+   <div id="content2">
+   
+    <form name="search" action="http://www.idev101.com/search.html" method="POST">
+
+        <h2 class="gray" style="margin-top: 0px;">
+        
+        <a class="linkback" href="http://www.idev101.com/">iPhone Development 101:</a> <a class="linkback" href="http://www.idev101.com/code/Distribution/">Distribution:</a> <br>
+
+        Checklist for Submitting an App to the App Store
+        </h2>
+
+    </form>
+    
+        <div class="sec">
+
+
+<p>
+Before you can release a paid app to the App Store, you must agree to all of the paid app contracts, and submit your tax and bank routing info. This should be done in iTunes Connect. For best results you should fill this out before you even begin working on any apps, because it can take several weeks for the contracts to be approved by Apple.
+</p>
+
+
+<h3>Preparation</h3>
+
+<p>
+1. Complete all of the coding and testing on your app. 
+</p>
+
+<p>
+2. Update the Info.plist file in your app.
+</p><ol style="	list-style-type: lower-latin;">
+    <li>Set the bundle identifier (if you haven't already) to YourAppName. (Remove the         
+        com.apple.whatever stuff.) The Identifier should not contain spaces or funny
+        characters - alphanumeric and dashes are ok.<br>
+    </li><li>If you want your app to be named something different on the actual device than its 
+        name in Xcode, change the "Bundle display name" as well.<br>
+    </li><li>Update the bundle version. If this is your first time submitting this app, the 
+        version number should probably be 1.0.<br>
+    </li><li>Be sure the icon file is set.<br>
+</li></ol>
+<p></p>
+
+<p>
+3. <a href="http://www.idev101.com/code/Distribution/build.html">Build the app for distribution.</a>
+</p>
+
+<p>
+4. Write a description for your app for the app store. The app upload page says the description should be 700 characters or less, but that limit doesn't seem to be enforced.
+</p>
+
+<p>
+5. Choose a numeric SKU for your app. This can't be left blank, and it has to be a unique number for each of your apps. (I usually use <i>YYMM</i>, like 0902, but you can use whatever you want as long as it's a number.) 
+</p>
+
+<p>
+6. Assemble your screenshots. You'll need at least one primary screenshot, and up to four more secondary screenshots. Be sure they're the right size: 320 x 480 or 320 x 460 for standard resolution iPhone apps, 640 x 960 for high resolution. iPad screenshots should be 1024 x 768.
+</p>
+
+<p>
+7. Prepare your iTunes artwork. This is a 512 x 512 pixel 72dpi JPEG. It should match your icon artwork as closely as possible - apps are sometimes rejected if these two images are dissimilar.
+</p>
+
+<p>
+When you've got all that prepared, you're ready to set up your app in iTunes Connect.
+</p>
+
+<h3>iTunes Connect</h3>
+
+<p>
+When you log into developer.apple.com/iphone, there's a link to iTunes Connect on the right. Once you're logged into iTunes Connect, click on "Manage Your Applications", then "Add New Application".
+</p>
+
+<p>
+The app details page asks for your app name, description, copyright info, version number, SKU, application URL and support URL and support e-mail address (all of these are required). The URLs you enter translate to:
+</p>
+
+<table>
+<tbody><tr>
+    <th style="padding-right: 20px;">iTunes Connect calls it:</th> <th>What it shows on your app's page in iTunes:</th>
+</tr>
+<tr>    
+    <td>"Application URL"       </td> <td>"CompanyName Web Site"</td>
+</tr>
+<tr>
+    <td>"Support URL"           </td> <td>"Appname Support" </td>
+</tr>
+</tbody></table>
+
+<p>
+If this is your first time uploading an app to the app store, and you enrolled as an individual developer, you'll be asked if you want to set a Company Name. Think carefully about this - once you set it, you can NOT change it without calling Apple and going through their phone support line. If you set a company name then all of your apps will show it.
+</p>
+
+<p>
+This is also where you should upload the iTunes artwork and screenshots.
+</p>
+
+<p>
+<b>Ratings:</b> You'll be asked to rate your app by indicating whether it includes any offensive material.
+</p>
+
+<p>
+<b>Pricing and availability:</b> this is where you set the price and release date for your app. You'll get a chance to review this after you select a pricing tier. The page should show a link to the pricing tiers, but if it doesn't show one initially, just set the price to anything and let it refresh. The link should show up then. <br>
+</p><div class="ind">
+Free<br> 
+Tier1 -  0.99<br>
+Tier 2 - 1.99<br>
+Tier 3 - 2.99<br>
+Tier 4 - 3.99<br>
+Tier 5 - 4.99<br>
+Tier 6 - 5.99<br>
+</div>
+And so on. 
+<p></p>
+
+<p>
+<b>Release date:</b> This defaults to the current date, but you can set it to a date in the future* if you like. When your app is approved, you'll want to log back into iTunes Connect and reset the release date to the approval date; that way the app will show up at the top of the new releases section of its category. If you fail to do this, then when your app gets approved it'll show up buried several pages down - not very desirable.
+</p>
+
+<p class="ind">
+*if you're submitting an app UPDATE, however, you shouldn't touch the release date until you get word that your update has been approved. If you change the release date of an update to sometime in the future, then your CURRENT app will vanish from the app store!
+</p>
+
+<p>
+Once you've finished setting up info on your new app, go to the app details page and click on the <b>Ready to Upload Binary</b> button.
+</p>
+
+
+<h3>Uploading Your App</h3>
+
+<img src="./Checklist for Submitting an App to the App Store_files/apploader.jpg" align="left" style="padding-right: 10px;">
+
+<p>
+To upload your app binary to Apple, use the Application Loader app that's part of the developer applications. (You can find it in Developer-&gt;Applications-&gt;Utilities on your mac.) The Loader will guide you through the upload steps. If you can't find your app in the pull-down of available apps to upload, be sure you changed the status to "Waiting for Upload" (by clicking on the <b>Ready to Upload Binary</b> button) in iTunes Connect.
+</p>
+
+<p>
+Once your app is uploaded, the status will change from "Upload Received" to "Waiting for Review". Now you just have to wait for Apple to review and (hopefully) approve your app. This usually takes about a week, sometimes longer. If you log into the iOS Developer Center and go to the <a target="_blank" href="https://developer.apple.com/appstore/resources/approval/">App Store Approval Process</a> page, you'll find an App Store Review Status section that Apple keeps (more or less) updated with the percentage of apps that are approved within the past week.
+</p>
+
+<p>
+While you're waiting for approval, you should set up a <a href="http://www.idev101.com/code/Marketing/webpage.html">web page for your app</a>.
+</p>
+
+<h3>After Approval</h3>
+
+<p>
+When your app is approved, you'll get an email saying your app is ready for sale. You should log back into iTunes Connect and change your app's availability date to today. This way your app will appear at the top of the "new releases" list in its category. You can only do this on the date your app was approved. 
+</p>
+
+<p>
+You can change most of the app details any time after your app is approved; if you want to re-word the description, or upload new screenshots, or change the price of your app, you can do so without having to go through the approval process again. The only time you'll have to wait for approval is when you submit an update (a new binary) to an app. Also, you can only change keywords or ratings when you upload a new binary.
+</p>
+
+
+
+            <br clear="all">
+
+            <p>
+                <a href="javascript:window.scrollTo(0,0)">Top</a>
+                • <a href="http://www.idev101.com/">Home</a>
+                
+            </p>
+
+        </div>
+    
+    </div> <!-- end content -->
+
+</div>
+
+<div id="footer">
+    Site design, writing, and code by <a href="http://www.lightsphere.com/">Kira</a>. © 2009-2011.
+</div>
+
+<script src="./Checklist for Submitting an App to the App Store_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+try {
+_uacct = "UA-3133131-4";
+urchinTracker();
+} catch(err) {}</script>
+
+
+
+
+
+</body></html>
