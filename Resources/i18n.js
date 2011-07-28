@@ -244,6 +244,31 @@
 			'zh-cn': '你确定要更新资料吗？',
 			'zh-tw': '你確定要更新資料嗎？'
 		},
+		'hss_building': {
+			'en': '中央研究院人文社會科學館',
+			'zh-cn': '中央研究院人文社会科学馆',
+			'zh-tw': 'H.S.S Building, Academia Sinica'			
+		},
+		'directions': {
+			'en': 'Directions',
+			'zh-cn': '交通方式',
+			'zh-tw': '交通方式'			
+		},
+		'open_in_google_maps': {
+			'en': 'Open in google maps',
+			'zh-cn': '使用谷歌地图开启',
+			'zh-tw': '使用Google地圖開啓'			
+		},
+		'sent_via_email': {
+			'en': 'Sent via email',
+			'zh-cn': '透过电子邮件传送',
+			'zh-tw': '透過電子郵件傳送'			
+		},
+		'my_starred_programs_at_coscup': {
+			'en': 'My starred programs at COSCUP 2011',
+			'zh-cn': '我加星号的COSCUP 2011议程',
+			'zh-tw': '我加星號的COSCUP 2011議程'			
+		},
 	}
 })();
 function _(key){

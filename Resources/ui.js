@@ -120,6 +120,7 @@
 	
 	coscup.ui.createCoscupWin = function(){
 		var win = Titanium.UI.createWindow({
+			title: 'COSCUP',
 			backgroundColor: '#fff',
 			barColor: '#408937',
 			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'})
@@ -151,7 +152,7 @@
 		if(coscup.osname === 'iphone' || coscup.osname === 'ipad')
 		{
 			table.style = Titanium.UI.iPhone.TableViewStyle.GROUPED;
-			table.backgroundColor = '#EEE';
+			table.backgroundColor = '#fff';
 			//table.backgroundImage = 'images/background.jpg';
 			
 			var infoButton = Titanium.UI.createButton({
@@ -208,7 +209,7 @@
 				
 				case 'venue':
 				url = 'http://coscup.org/2011/'+coscup.i18n.locale+'/venue/';
-				coscup.appTabGroup.activeTab.open(coscup.ui.createWebSummaryWin({title: _(e.source.id), keyword: e.source.id}));
+				coscup.appTabGroup.activeTab.open(coscup.ui.createVenueWin());
 				break;
 
 				case 'sponsors':
@@ -236,6 +237,87 @@
 
 		//win.add(header);
 		win.add(table);
+		return win;
+	}
+	
+	coscup.ui.createVenueWin = function(){
+		var win = Titanium.UI.createWindow({
+			title: _('venue'),
+			barColor: '#408937',
+			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'}),
+			backgroundColor: '#fff',
+			tabBarHidden: true
+		});
+		
+		var mapView = Titanium.Map.createView({
+		    mapType: Titanium.Map.STANDARD_TYPE,
+		    region: {
+				latitude: 25.041197,
+			 	longitude: 121.611920, 
+		        latitudeDelta: 0.005,
+				longitudeDelta: 0.005
+				},
+		    animate: true,
+		   	regionFit: false,
+		    userLocation: true
+		});
+		
+		var venue = Titanium.Map.createAnnotation({
+					latitude: 25.041197,
+				    longitude: 121.611920,
+				    title: _('hss_building'),
+				    pincolor: Titanium.Map.ANNOTATION_RED,
+				    animate: true,
+					//leftButton: '/images/zoom.png',
+					rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE
+		});
+		
+		if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+			var directionButtion = Titanium.UI.createButton({
+				title: _('directions')
+			});
+			win.rightNavButton = directionButtion;
+			
+			directionButtion.addEventListener('click', function()
+			{
+				var directionsWin = coscup.ui.createWebWin({title: _('directions'), webUrl: 'http://www.sinica.edu.tw/location.htm'});
+				coscup.appTabGroup.activeTab.open(directionsWin);
+			});
+		}
+
+		
+		mapView.annotations = [venue];
+		win.add(mapView);
+		
+		mapView.addEventListener('click', function(e)
+		{
+			if(e.clicksource === 'rightButton'){
+				var dialog = Titanium.UI.createOptionDialog({
+				options: [_('open_in_google_maps'), _('sent_via_email'), _('cancel')],
+				    cancel: 2
+				});
+				
+				dialog.addEventListener('click', function(e){
+					switch(e.index)
+					{
+						case 0:
+							Titanium.Platform.openURL(encodeURI('http://maps.google.com/maps?q='+_('hss_building')+'@'+venue.latitude+','+venue.longitude+'&ie=UTF8&t=h&z=19'));
+							break;
+						case 1:
+							var emailDialog = Titanium.UI.createEmailDialog({html: true});
+							emailDialog.subject = _('hss_building');
+							emailDialog.toRecipients = [];
+							emailDialog.messageBody = '<a href="http://maps.google.com/maps?q='+_('hss_building')+'@'+venue.latitude+','+venue.longitude+'&ie=UTF8&t=h&z=19">'+_('hss_building')+'</a>';
+							emailDialog.open();
+							break;
+						
+						default:
+						  Ti.API.info('Cancel');
+					}
+				});
+				dialog.show();
+			}
+		});
 		return win;
 	}
 	
@@ -693,7 +775,45 @@
 				});
 				alertDialog.show();
 			});
-			win.rightNavButton = clearButton;
+			win.leftNavButton = clearButton;
+			
+			var actionButtion = Titanium.UI.createButton({
+				systemButton: Titanium.UI.iPhone.SystemButton.ACTION
+			});
+			win.rightNavButton = actionButtion;
+			
+			actionButtion.addEventListener('click', function()
+			{
+				var dialog = Titanium.UI.createOptionDialog({
+					options: [_('sent_via_email'), _('cancel')],
+				    cancel: 3
+				});
+				
+				dialog.addEventListener('click', function(e){
+					switch(e.index)
+					{
+						case 0:
+							var emailDialog = Titanium.UI.createEmailDialog({html: true});
+							emailDialog.subject = _('my_starred_programs_at_coscup');
+							emailDialog.toRecipients = [];
+							var content = '';
+							for(var i = 0, l = coscup.data.getStarredPrograms().length; i < l; i++){
+								var programId = coscup.data.getStarredPrograms()[i];
+								content += coscup.data.getProgramHTMLById(programId)+'<p>';
+							}
+							Ti.API.info(content);
+							emailDialog.messageBody = content;
+							emailDialog.open();
+							break;
+						
+						default:
+						  Ti.API.info('Cancel');
+					}
+				});
+				dialog.show();
+			});
+			
+			win.leftNavButton = clearButton;
 		}
 
 		var table =  coscup.ui.createStarredProgramTableView({headerType: 'day'}, coscup.data.program);
@@ -925,7 +1045,7 @@
 				var unstarCallback = function(){
 					e.source.image = 'images/unstarred.png';
 					table.deleteRow(e.index);
-					if(coscup.data.starredPrograms.length == 0){
+					if(coscup.data.getStarredPrograms().length == 0){
 						table.setData([{title: _('no_starred_program')}]);
 					}
 				}
