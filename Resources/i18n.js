@@ -230,9 +230,9 @@
 			'zh-tw': '關於本軟體'
 		},
 		'powered_by': {
-			'en': 'Developed by Justin Lee\nPowered by Titanium Mobile',
-			'zh-cn': '李易修(Justin Lee)开发\n採用Titanium Mobile',
-			'zh-tw': '李易修(Justin Lee)開發\n採用Titanium Mobile'
+			'en': 'Developed by Justin Lee.\nPowered by Titanium Mobile.\nHerxun Inc.',
+			'zh-cn': '李易修(Justin Lee)开发.\n採用Titanium Mobile.\nHerxun Inc.',
+			'zh-tw': '李易修(Justin Lee)開發.\n採用Titanium Mobile.\nHerxun Inc.'
 		},
 		'update_data': {
 			'en': 'Updata data',
