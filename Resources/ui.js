@@ -19,7 +19,7 @@
 	coscup.ui.color.PROGRAM_TYPE_10 = '#7f00ff';
 	coscup.ui.color.PROGRAM_TYPE_11 = '#FF00FF';
 	coscup.ui.color.PROGRAM_TYPE_12 = '#ff0080';
-		
+
 	coscup.ui.createIndicatorWin = function()
 	{
 		var win = Titanium.UI.createWindow({
@@ -194,8 +194,6 @@
 					}
 				});
 				alertDialog.show();
-				
-
 			});
 		}
 		
@@ -753,6 +751,7 @@
 	coscup.ui.createStarredWin = function(){
 		var win = Titanium.UI.createWindow({
 			barColor: '#408937',
+			title: _('starred'),
 			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'})
 		});
 		
@@ -780,40 +779,72 @@
 			var actionButtion = Titanium.UI.createButton({
 				systemButton: Titanium.UI.iPhone.SystemButton.ACTION
 			});
-			win.rightNavButton = actionButtion;
 			
 			actionButtion.addEventListener('click', function()
-			{
-				var dialog = Titanium.UI.createOptionDialog({
-					options: [_('sent_via_email'), _('cancel')],
-				    cancel: 3
-				});
-				
-				dialog.addEventListener('click', function(e){
-					switch(e.index)
-					{
-						case 0:
-							var emailDialog = Titanium.UI.createEmailDialog({html: true});
-							emailDialog.subject = _('my_starred_programs_at_coscup');
-							emailDialog.toRecipients = [];
-							var content = '';
-							for(var i = 0, l = coscup.data.getStarredPrograms().length; i < l; i++){
-								var programId = coscup.data.getStarredPrograms()[i];
-								content += coscup.data.getProgramHTMLById(programId)+'<p>';
-							}
-							Ti.API.info(content);
-							emailDialog.messageBody = content;
-							emailDialog.open();
-							break;
-						
-						default:
-						  Ti.API.info('Cancel');
-					}
-				});
-				dialog.show();
+			{	
+				if(coscup.osname === 'iphone'){
+					var dialog = Titanium.UI.createOptionDialog({
+						options: [_('sent_via_email'), _('cancel')],
+					    cancel: 3
+					});
+					
+					dialog.addEventListener('click', function(e){
+						switch(e.index)
+						{
+							case 0:
+								var emailDialog = Titanium.UI.createEmailDialog({html: true});
+								emailDialog.subject = _('my_starred_programs_at_coscup');
+								emailDialog.toRecipients = [];
+								var content = '';
+								for(var i = 0, l = coscup.data.getStarredPrograms().length; i < l; i++){
+									var programId = coscup.data.getStarredPrograms()[i];
+									content += coscup.data.getProgramHTMLById(programId)+'<p>';
+								}
+								emailDialog.messageBody = content;
+								emailDialog.open();
+								break;
+							
+							default:
+							  Ti.API.info('Cancel');
+						}
+					});
+					dialog.show();
+				}else if(coscup.osname === 'ipad'){
+					actionButtion.enabled = false;
+					var container = Titanium.UI.createView();
+					var emailButton = Titanium.UI.createButton({
+						title: _('sent_via_email'),
+						height: 44
+						});
+					container.add(emailButton);
+				    var popover = Ti.UI.iPad.createPopover({
+				    	height: 44,
+				    	width: 200,
+				    	navBarHidden: true
+				    });
+				    popover.add(container);
+				    popover.show({view: actionButtion, animation: true});
+				    emailButton.addEventListener('click', function(){
+				    	actionButtion.enabled = true;
+		    			var emailDialog = Titanium.UI.createEmailDialog({html: true});
+						emailDialog.subject = _('my_starred_programs_at_coscup');
+						emailDialog.toRecipients = [];
+						var content = '';
+						for(var i = 0, l = coscup.data.getStarredPrograms().length; i < l; i++){
+							var programId = coscup.data.getStarredPrograms()[i];
+							content += coscup.data.getProgramHTMLById(programId)+'<p>';
+						}
+						emailDialog.messageBody = content;
+						emailDialog.open();
+						popover.hide({animation: true});
+				    });
+				    popover.addEventListener('hide', function(){
+				    	actionButtion.enabled = true;
+				    });
+				}
 			});
 			
-			win.leftNavButton = clearButton;
+			win.rightNavButton = actionButtion;
 		}
 
 		var table =  coscup.ui.createStarredProgramTableView({headerType: 'day'}, coscup.data.program);
@@ -949,14 +980,12 @@
 		
 		
 		Titanium.App.addEventListener('app:starClear', function(){
-				Ti.API.info('clear');
-				table.showData();
-		});
-		
-		return table;
-	};
+			Ti.API.info('clear');
+			table.showData();
+		});	
+			return table;
+		};
 	
-	//***
 		coscup.ui.createStarredProgramTableView = function(option, programs){
 		var search = Titanium.UI.createSearchBar({
     		showCancel: false,
