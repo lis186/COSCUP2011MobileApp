@@ -152,7 +152,9 @@
 		if(coscup.osname === 'iphone' || coscup.osname === 'ipad')
 		{
 			table.style = Titanium.UI.iPhone.TableViewStyle.GROUPED;
-			table.backgroundColor = '#fff';
+			if(coscup.osname === 'ipad'){
+				table.backgroundColor = '#eee';
+			}
 			//table.backgroundImage = 'images/background.jpg';
 			
 			var infoButton = Titanium.UI.createButton({
