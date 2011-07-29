@@ -116,21 +116,21 @@
 					coscup.data.saveData();
 					Ti.API.info('program:' + coscup.data.program);
 					Ti.API.info('programTypes:' + coscup.data.programTypes);
-					Ti.API.info('programRooms:' + coscup.data.programRooms);					
+					Ti.API.info('programRooms:' + coscup.data.programRooms);
+					coscup.data.loadData();					
 					callback();
 				})
 			});
 		});
 	};
 	
-	
 	coscup.network.getCoscupWebContent = function(keyword ,callback)
 	{
 		var xhr = Titanium.Network.createHTTPClient();
-		Titanium.App.fireEvent('app:show_indicator');
+		//Titanium.App.fireEvent('app:show_indicator');
 		xhr.onload = function()
 		{
-			Titanium.App.fireEvent('app:hide_indicator');
+		//	Titanium.App.fireEvent('app:hide_indicator');
 			//Ti.API.info(this.responseText);
 			var result = {};
 			if(this.responseText != null)

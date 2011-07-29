@@ -8,10 +8,10 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <id>co.herxun.coscup2011</id>
-    <name>COCSUP 2011</name>
+    <name>COSCUP 2011</name>
     <version>1.0</version>
-    <publisher>Herxun</publisher>
-    <url>http://www.herun.co</url>
+    <publisher>Herxun Inc.</publisher>
+    <url>http://www.herxun.co</url>
     <description>not specified</description>
     <copyright>2011 by lis186</copyright>
     <icon>appicon.png</icon>
