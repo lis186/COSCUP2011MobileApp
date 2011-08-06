@@ -33,7 +33,7 @@
 	}
 	
 	coscup.data.getStarredPrograms = function(){
-		return coscup.data.starredPrograms;
+		return coscup.data.starredPrograms.sort();
 	}
 	
 	coscup.data.getProgramById = function(programId){
@@ -120,7 +120,7 @@
 		
 		if(coscup.data.starredPrograms.indexOf(programId) === -1){
 			coscup.data.starredPrograms.push(programId);
-			coscup.data.starredPrograms = coscup.data.starredPrograms.sort();
+			//coscup.data.starredPrograms = coscup.data.starredPrograms.sort();
 			Titanium.App.Properties.setList('starredPrograms', coscup.data.starredPrograms);
 			Ti.API.info('=>' + coscup.data.starredPrograms);
 			Titanium.App.fireEvent('app:starUpdate', {id: programId});
