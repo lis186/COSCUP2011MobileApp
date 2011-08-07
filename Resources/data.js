@@ -1,6 +1,5 @@
 (function () {
 	Titanium.include('util.js');
-	Titanium.include('date.js');
 	coscup.data = {};
 	coscup.data.saveData = function(){
 		Ti.API.info('saveData()');
@@ -45,7 +44,7 @@
 	
 	coscup.data.getProgramHTMLById = function(programId){
 		var program = coscup.data.getProgramById(programId);
-		var duration = new Date(program.from*1000).toString("HH:mm") + '-' +new Date(program.to*1000).toString("HH:mm");
+		var duration = new Date(program.from*1000).hhmm() + '-' +new Date(program.to*1000).hhmm();
 		var room = coscup.data.programRooms[program.room][coscup.i18n.locale];
 		var day = new Date(program.from*1000).getDay();
 		var weekday = '';

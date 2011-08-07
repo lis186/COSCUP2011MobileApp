@@ -1,7 +1,6 @@
 (function () {
 	Titanium.include('util.js');
 	Titanium.include('network.js');
-	Titanium.include('date.js');
 	Titanium.include('data.js');
 	Titanium.include('i18n.js');
 	coscup.ui = {};
@@ -46,8 +45,9 @@
 	};
 	
 	coscup.ui.init = function() {
+		Ti.API.info(coscup.osname);
 		switch (coscup.osname){
-			case 'andoird':
+			case 'android':
 				coscup.appTabGroup = coscup.ui.createAppTabGroup();
 				coscup.appTabGroup.open();
 				break;
@@ -128,15 +128,14 @@
 		});
 	
 		var infoSection = Ti.UI.createTableViewSection();
-		infoSection.add(Ti.UI.createTableViewRow({title: _('about'), id: 'about', backgroundColor: '#fff'}));
-		infoSection.add(Ti.UI.createTableViewRow({title: _('venue'), id: 'venue', backgroundColor: '#fff'}));
-		infoSection.add(Ti.UI.createTableViewRow({title: _('sponsors'), id: 'sponsors', backgroundColor: '#fff'}));
-		infoSection.add(Ti.UI.createTableViewRow({title: _('blog'), id: 'blog', backgroundColor: '#fff'}));
-		
+		infoSection.add(Ti.UI.createTableViewRow({title: _('about'), id: 'about', color: '#000', backgroundColor: '#fff'}));
+		infoSection.add(Ti.UI.createTableViewRow({title: _('venue'), id: 'venue', color: '#000', backgroundColor: '#fff'}));
+		infoSection.add(Ti.UI.createTableViewRow({title: _('sponsors'), id: 'sponsors', color: '#000', backgroundColor: '#fff'}));
+		infoSection.add(Ti.UI.createTableViewRow({title: _('blog'), id: 'blog', color: '#000', backgroundColor: '#fff'}));
 		
 		var socialSection = Ti.UI.createTableViewSection({headerTitle: _('social')});
-		socialSection.add(Ti.UI.createTableViewRow({title: _('twitter'), id: _('twitter'), backgroundColor: '#fff'}));
-		socialSection.add(Ti.UI.createTableViewRow({title: _('plurk'), id: _('plurk'), backgroundColor: '#fff'}));
+		socialSection.add(Ti.UI.createTableViewRow({title: _('twitter'), id: _('twitter'), color: '#000', backgroundColor: '#fff'}));
+		socialSection.add(Ti.UI.createTableViewRow({title: _('plurk'), id: _('plurk'), color: '#000', backgroundColor: '#fff'}));
 		
 		//var upcomingSection = Ti.UI.createTableViewSection({headerTitle: _('upcoming')});
 		//infoSection.add(Ti.UI.createTableViewRow({title: _('twitter')}));
@@ -200,6 +199,7 @@
 		}
 		
 		table.addEventListener('click', function(e){
+			alert(e);
 			var url;
 			switch (e.source.id){
 				case 'about':
@@ -462,7 +462,7 @@
 			{
 				var program = coscup.data.program[i];
 				
-				var duration = new Date(program.from*1000).toString("HH:mm") + '-' +new Date(program.to*1000).toString("HH:mm");
+				var duration = new Date(program.from*1000).hhmm() + '-' +new Date(program.to*1000).hhmm();
 				var room = coscup.data.programRooms[program.room][coscup.i18n.locale];
 				var day = new Date(program.from*1000).getDay();
 				
@@ -878,53 +878,55 @@
 				var row = coscup.ui.createProgramRow(program);
 				//
 				var theDay;
-				switch (option.headerType)
-				{
-					case 'day':
-					if(program.from < new Date(2011,7,21).getTime()/1000)
+				if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+					switch (option.headerType)
 					{
-						row.header = _('day_1');
-					}else if(program.from > new Date(2011,7,21).getTime()/1000){
-						row.header = _('day_2');
-					}
-					theDay = row.header;
-					
-					if(i>0){
-						if(row.header == theDay)
+						case 'day':
+						if(program.from < new Date(2011,7,21).getTime()/1000)
 						{
-							delete row.header;
+							row.header = _('day_1');
+						}else if(program.from > new Date(2011,7,21).getTime()/1000){
+							row.header = _('day_2');
 						}
-					}
-					break;
-					
-					case 'time':
-					if(i === 0)
-					{
-						row.header = row.duration;
-					}
-					else if(i>0){
-						if(data[i-1].duration != row.duration)
+						theDay = row.header;
+						
+						if(i>0){
+							if(row.header == theDay)
+							{
+								delete row.header;
+							}
+						}
+						break;
+						
+						case 'time':
+						if(i === 0)
 						{
 							row.header = row.duration;
 						}
-					}
-					break;
-					
-					case 'type':
-					if(i === 0)
-					{
-						row.header = coscup.data.programTypes[row.type];
-					}
-					else if(i>0){
-						if(data[i-1].type != row.type)
+						else if(i>0){
+							if(data[i-1].duration != row.duration)
+							{
+								row.header = row.duration;
+							}
+						}
+						break;
+						
+						case 'type':
+						if(i === 0)
 						{
 							row.header = coscup.data.programTypes[row.type];
 						}
-					}
-					break;
-					
-					default:
-					break;
+						else if(i>0){
+							if(data[i-1].type != row.type)
+							{
+								row.header = coscup.data.programTypes[row.type];
+							}
+						}
+						break;
+						
+						default:
+						break;
+					}					
 				}
 
 				data.push(row);
@@ -960,20 +962,26 @@
 		table.showData();
 		
 		Titanium.App.addEventListener('app:starUpdate', function(e){
-			Ti.API.info('app:starUpdate triggerer!');
+			Ti.API.info('app:starUpdate triggered!');
 			for(var i = 0, l = data.length; i < l; i++){
 				var program = data[i];
 				if(program.programId === e.id){
 					var row = coscup.ui.createProgramRow(coscup.data.getProgramById(e.id));
-					var highlightView = Titanium.UI.createView({backgroundColor: '#FFFFCC', width: '100%', height: '100%', left: 0, top: 0});
-					if(coscup.currentProgramTableView === table){
-						row.add(highlightView);		
-						var animation = Titanium.UI.createAnimation();
-						animation.opacity = 0;
-						animation.duration = 500;
-						table.updateRow(i, row);
-						highlightView.animate(animation);
+						if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+							var highlightView = Titanium.UI.createView({backgroundColor: '#FFFFCC', width: '100%', height: '100%', left: 0, top: 0});
+							if(coscup.currentProgramTableView === table){
+							row.add(highlightView);		
+							var animation = Titanium.UI.createAnimation();
+							animation.opacity = 0;
+							animation.duration = 500;
+							Ti.API.info('update row '+ i);
+							table.updateRow(i, row);
+							highlightView.animate(animation);
+						}else if(coscup.osname === 'android'){
+							table.updateRow(i, row);
+						}
 					} else{
+						Ti.API.info('update row '+ i);
 						table.updateRow(i, row);
 					}
 				}			
@@ -1008,53 +1016,55 @@
 				var row = coscup.ui.createProgramRow(program);
 				//
 				var theDay;
-				switch (option.headerType)
-				{
-					case 'day':
-					if(program.from < new Date(2011,7,21).getTime()/1000)
+				if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+					switch (option.headerType)
 					{
-						row.header = _('day_1');
-					}else if(program.from > new Date(2011,7,21).getTime()/1000){
-						row.header = _('day_2');
-					}
-					theDay = row.header;
-					
-					if(i>0){
-						if(row.header == theDay)
+						case 'day':
+						if(program.from < new Date(2011,7,21).getTime()/1000)
 						{
-							delete row.header;
+							row.header = _('day_1');
+						}else if(program.from > new Date(2011,7,21).getTime()/1000){
+							row.header = _('day_2');
 						}
-					}
-					break;
-					
-					case 'time':
-					if(i === 0)
-					{
-						row.header = row.duration;
-					}
-					else if(i>0){
-						if(data[i-1].duration != row.duration)
+						theDay = row.header;
+						
+						if(i>0){
+							if(row.header == theDay)
+							{
+								delete row.header;
+							}
+						}
+						break;
+						
+						case 'time':
+						if(i === 0)
 						{
 							row.header = row.duration;
 						}
-					}
-					break;
-					
-					case 'type':
-					if(i === 0)
-					{
-						row.header = coscup.data.programTypes[row.type];
-					}
-					else if(i>0){
-						if(data[i-1].type != row.type)
+						else if(i>0){
+							if(data[i-1].duration != row.duration)
+							{
+								row.header = row.duration;
+							}
+						}
+						break;
+						
+						case 'type':
+						if(i === 0)
 						{
 							row.header = coscup.data.programTypes[row.type];
 						}
+						else if(i>0){
+							if(data[i-1].type != row.type)
+							{
+								row.header = coscup.data.programTypes[row.type];
+							}
+						}
+						break;
+						
+						default:
+						break;
 					}
-					break;
-					
-					default:
-					break;
 				}
 				
 				if(coscup.data.isStarred(program.id)){
@@ -1120,7 +1130,7 @@
 		row.programId = program.id;
 		row.filter = program.name + coscup.data.programTypes[row.type] + coscup.data.programRooms[program.room][coscup.i18n.locale];
 		row.type = program.type;
-		row.duration = new Date(program.from*1000).toString("HH:mm") + '-' +new Date(program.to*1000).toString("HH:mm");
+		row.duration = new Date(program.from*1000).hhmm() + '-' +new Date(program.to*1000).hhmm();
 		row.room = coscup.data.programRooms[program.room][coscup.i18n.locale];
 		
 		var day = new Date(program.from*1000).getDay();

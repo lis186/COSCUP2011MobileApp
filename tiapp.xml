@@ -23,6 +23,7 @@
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
     <guid>774f913b-bd14-4d84-a198-57ff157f31cf</guid>
+    <property name="ti.android.google.map.api.key.development">0outr5dLwdbQ63XEtFwB_UAB44OWC0oryF-ODFw</property>
 	<iphone>
 		<orientations device="iphone">
 			<orientation>Ti.UI.PORTRAIT</orientation>
@@ -38,6 +39,7 @@
 		<tool-api-level>8</tool-api-level>
 		<manifest android:installLocation="preferExternal">
 			<uses-sdk android:minSdkVersion="7"/>
+			<supports-screens android:anyDensity="true"/>
 		</manifest>
 	</android>
 	<modules>

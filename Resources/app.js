@@ -1,7 +1,8 @@
 Titanium.UI.setBackgroundColor = '#676835';
+
 var coscup = {};
 coscup.osname = Titanium.Platform.osname;
-//TODO: need to fix lunch first time bug
+
 Titanium.include('data.js');
 Titanium.include('network.js');
 Titanium.include('ui.js');

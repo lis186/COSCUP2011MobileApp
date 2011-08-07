@@ -87,4 +87,12 @@
 	  };
 	}
 	
+	///
+	Date.prototype.hhmm = function() {
+		var date=this;
+		var h = date.getHours();
+		var m = (this.getMinutes()<10)? ('0'+this.getMinutes()) : this.getMinutes();
+		return h+':'+m;
+	}
+	
 })();
