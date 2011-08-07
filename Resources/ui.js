@@ -1262,21 +1262,21 @@
 				color: '#000',
 				font: {
 					fontWeight: 'bold',
-					fontSize: 18
+					fontSize: '18dp'
 				},
 				width: 'auto',
 				height: 'auto',
-				left: 36,
-				top: 10,
-				bottom: 10
+				left: '36dp',
+				top: '10dp',
+				bottom: '10dp'
 			});
 			
 			var colorDot = Titanium.UI.createView({
 				backgroundColor: coscup.ui.color['PROGRAM_TYPE_'+i],
 				borderRadius: 7,
-				width: 12,
-				height: 12,
-				left: 10
+				width: '12dp',
+				height: '12dp',
+				left: '10dp'
 			});
 			row.add(colorDot);
 			row.add(nameLabel);	
