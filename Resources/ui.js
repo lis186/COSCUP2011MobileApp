@@ -1164,7 +1164,7 @@
 		
 		win.add(table);
 		win.add(noDataView);
-		table.showData();
+		//table.showData();
 		
 		toggleNoDataView();
 		
@@ -1184,6 +1184,10 @@
 		
 		win.addEventListener('open', function(){
 			Titanium.App.fireEvent('app:toggleNoDataMessage');
+		});
+		
+		win.addEventListener('focus', function(){
+			table.showData();
 		});
 		
 		return win;

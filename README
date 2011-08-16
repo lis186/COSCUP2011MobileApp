@@ -1,10 +1,9 @@
 COSCUP2011 Mobile App
 ============================
 
-本軟體為開源人年會COSCUP 2011的Mobile App，採用Titanium Mobile開發，
-支援Mobile App，支援iPhone, iPad與Android。
-
 開源人年會COSCUP 2011即將在2011年8月20-21日於台灣台北舉行。
+本軟體為本活動的Mobile App，採用Titanium Mobile開發，
+支援Mobile App，支援iPhone, iPad與Android。
 本軟體提供了參與COSCUP所需要的各項資訊,只需第一次開啓時更新一次就可以離線使用。
 
 功能:
@@ -23,8 +22,8 @@ COSCUP2011 Mobile App
 COSCUP官方網站:
 http://coscup.org
 
-Titanium Mobile
+Titanium Mobile:
 http://www.appcelerator.com/products/titanium-mobile-application-development/
 
-Mobile Titans:
+Mobile Titans:(Titanium Mobile中文資訊)
 http://ti.herxun.co/
