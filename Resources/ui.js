@@ -137,12 +137,14 @@
 		function isUpcoming(element, index, array) {
 			//Ti.API.info(element.from);
 			//Ti.API.info(new Date().getTime()/1000);
-			return (element.from > new Date().getTime()/1000);
+			var now = new Date();
+			return (element.from > now.getTime()/1000);
 		}
 
-		function isOnGoing(element, index, array) {
-			return (element.from > new Date().getTime()/1000 && element.to < new Date().getTime()/1000);
-		}		
+		function isOngoing(element, index, array) {
+			var now = new Date();
+			return (element.from > now.getTime()/1000 && element.to < new Date().getTime()/1000);
+		}
 		
 		function createUpcomingSection(){
 			var section = Ti.UI.createTableViewSection({headerTitle: _('upcoming')});
@@ -150,7 +152,6 @@
 			for(var i = 0, l = coscup.data.getProgramRooms().length; i < l; i++){
 				var upcomingPrograms = coscup.data.getProgramByRoomId(i).filter(isUpcoming);
 				if(upcomingPrograms.length > 0){
-					
 					programId = upcomingPrograms[0].id;
 					var roomRow = coscup.ui.createProgramRow(coscup.data.getProgramById(programId));
 					roomRow.id = 'program';
@@ -172,7 +173,8 @@
 		
 		table.showData = function(){
 			var upcomingSection = createUpcomingSection();
-			if(new Date() < new Date(2011, 7, 20)){
+			var now =  new Date();
+			if(now < new Date(2011, 7, 20)){
 				var data = [
 				infoSection,
 				socialSection,
@@ -1265,7 +1267,7 @@
 						break;
 					}					
 				}
-
+				
 				data.push(row);
 			}
 			table.setData(data);
@@ -1466,9 +1468,20 @@
 	
 	coscup.ui.createProgramRow = function (program) {
 		var row = Titanium.UI.createTableViewRow({
-			height: 'auto',
-			backgroundColor: '#fff'
+			height: 'auto'
 		});
+		
+		var now = new Date();
+		if(program.from > now.getTime()/1000){
+			//before 
+			row.backgroundColor = coscup.style.color.before;
+		}else if(program.from < now.getTime()/1000 && program.to > now.getTime()/1000){
+			//now
+			row.backgroundColor = coscup.style.color.now;
+		}else if (program.to < now.getTime()/1000){
+			//after
+			row.backgroundColor = coscup.style.color.after;
+		}
 		
 		if(program.type != 0)
 		{

@@ -285,6 +285,11 @@
 			'zh-cn': '客车',
 			'zh-tw': '接駁車'			
 		},
+		'ongoing': {
+			'en': 'Ongoing event',
+			'zh-cn': '进行中的活动',
+			'zh-tw': '進行中的活動'			
+		},
 	}
 })();
 function _(key){

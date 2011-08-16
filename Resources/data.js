@@ -48,7 +48,11 @@
 
 	coscup.data.getProgramByRoomId = function(roomId){
 		function inTheRoom(element, index, array) {
-		  return (element.room == roomId || roomId == 0);
+			//if(element.room == '0'){
+			//	return true;
+			//}else {
+				return (roomId == element.room);
+			//}
 		}
 		return coscup.data.program.sortOn('from').filter(inTheRoom); 
 	}

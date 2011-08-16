@@ -17,6 +17,10 @@
 	coscup.style.color.PROGRAM_TYPE_12 = '#ff0080';
 	coscup.style.color.barColor = '#408937';
 	
+	coscup.style.color.before = '#fff';
+	coscup.style.color.now = '#ffd';
+	coscup.style.color.after = '#eee';
+	
 	coscup.style.indicatorContainer = {
 		width: '60dp',
 		height: '60dp',
@@ -42,12 +46,12 @@
 	}
 	
 	coscup.style.highlight = {
-		backgroundColor: '#FFFFCC',
+		backgroundColor: '#ffffcc',
 		width: '100%',
 		height: '100%',
 		left: 0,
 		top: 0
-	}
+	}	
 
 	coscup.style.programTypeNameLabel = {
 		textAlign: 'left',
