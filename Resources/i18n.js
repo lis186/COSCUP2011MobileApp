@@ -280,6 +280,11 @@
 			'zh-cn': '明年見！',
 			'zh-tw': '明年見！'			
 		},
+		'bus': {
+			'en': 'Feeder bus',
+			'zh-cn': '客车',
+			'zh-tw': '接駁車'			
+		},
 	}
 })();
 function _(key){

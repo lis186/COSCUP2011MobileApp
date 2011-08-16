@@ -102,6 +102,11 @@
 		aboutRow.id = 'about';
 		infoSection.add(aboutRow);
 		
+		var busRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
+		busRow.title = _('bus');
+		busRow.id = 'bus';
+		infoSection.add(busRow);
+		
 		var venueRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
 		venueRow.title = _('venue');
 		venueRow.id = 'venue';
@@ -238,6 +243,11 @@
 				case 'about':
 				url = 'http://coscup.org/2011/'+coscup.i18n.locale+'/about/';
 				coscup.appTabGroup.activeTab.open(coscup.ui.createWebSummaryWin({title: _(e.source.id), keyword: e.source.id}));
+				break;
+
+				case 'bus':
+				url = 'http://blog.coscup.org/2011/08/coscup-2011_16.html';
+				coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: _(e.source.id), webUrl: url}));
 				break;
 				
 				case 'venue':
