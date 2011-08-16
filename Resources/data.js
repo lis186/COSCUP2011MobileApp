@@ -45,6 +45,13 @@
 		}
 		return coscup.data.program.sortOn('from').filter(isTheId)[0]; 
 	}
+
+	coscup.data.getProgramByRoomId = function(roomId){
+		function inTheRoom(element, index, array) {
+		  return (element.room == roomId || roomId == 0);
+		}
+		return coscup.data.program.sortOn('from').filter(inTheRoom); 
+	}
 	
 	coscup.data.getProgramHTMLById = function(programId){
 		var program = coscup.data.getProgramById(programId);
@@ -100,11 +107,11 @@
 		return html;
 	}
 	
-	coscup.data.programTypes = function(){
+	coscup.data.getProgramTypes = function(){
 		return coscup.data.programTypes;
 	}
 	
-	coscup.data.programRooms = function(){
+	coscup.data.getProgramRooms = function(){
 		return coscup.data.programRooms;
 	}
 

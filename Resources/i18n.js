@@ -275,6 +275,11 @@
 			'zh-cn': '资讯',
 			'zh-tw': '資訊'			
 		},
+		'see_you_next_year': {
+			'en': 'See you next year!',
+			'zh-cn': '明年見！',
+			'zh-tw': '明年見！'			
+		},
 	}
 })();
 function _(key){

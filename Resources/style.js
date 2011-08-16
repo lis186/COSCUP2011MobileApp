@@ -136,17 +136,25 @@
 		left: '14dp'
 	}
 	
-	coscup.style.iOS = {};
+	coscup.style.iphone = {};
 	
-	coscup.style.iOS.floorPlanImageView = {
-		width: '100%',
-		height: '100%'
+	coscup.style.iphone.floorPlanImageView = {
+		width: '320dp',
+		height: '320dp'
+	}
+
+	coscup.style.ipad = {};
+	
+	coscup.style.ipad.floorPlanImageView = {
+		width: '640dp',
+		height: '640dp'
 	}
 	
 	coscup.style.android = {};
 	coscup.style.android.floorPlanImageView = {
 		width: '320dp',
-		height: '320dp'		
+		height: '320dp',
+		backgroundColor: '#fff'
 	}
 	
 	coscup.style.androidTablet = {};
