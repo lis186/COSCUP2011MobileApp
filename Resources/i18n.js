@@ -1,7 +1,7 @@
 (function(){
 	coscup.i18n = {};
 	coscup.i18n.locale = 'en';
-	if(coscup.osname === 'iphone' || coscup.osname === 'ipad' )
+	if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad' )
 	{
 		switch(Titanium.Locale.currentLanguage)
 		{
@@ -20,13 +20,14 @@
 	}else if('android'){
 		var locale = Titanium.Locale.currentLanguage + '=' + Titanium.Locale.currentCountry;
 		locale = locale.toLowerCase();
+		Ti.API.info(locale);
 		switch(locale)
 		{
-			case 'zh-Hant':
+			case 'zh=tw':
 				coscup.i18n.locale = 'zh-tw';
 				break;
 			
-			case 'zh-Hans':
+			case 'zh=cn':
 				coscup.i18n.locale = 'zh-cn';
 				break;
 			
@@ -268,6 +269,16 @@
 			'en': 'My starred programs at COSCUP 2011',
 			'zh-cn': '我加星号的COSCUP 2011议程',
 			'zh-tw': '我加星號的COSCUP 2011議程'			
+		},
+		'information': {
+			'en': 'Information',
+			'zh-cn': '资讯',
+			'zh-tw': '資訊'			
+		},
+		'see_you_next_year': {
+			'en': 'See you next year!',
+			'zh-cn': '明年見！',
+			'zh-tw': '明年見！'			
 		},
 	}
 })();

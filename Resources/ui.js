@@ -1,44 +1,18 @@
 (function () {
 	Titanium.include('util.js');
 	Titanium.include('network.js');
-	Titanium.include('date.js');
 	Titanium.include('data.js');
 	Titanium.include('i18n.js');
+	Titanium.include('style.js');
 	coscup.ui = {};
-	coscup.ui.color = {};
-	coscup.ui.color.PROGRAM_TYPE_0 = 'transparent';
-	coscup.ui.color.PROGRAM_TYPE_1 = 'red';
-	coscup.ui.color.PROGRAM_TYPE_2 = '#ff8000';
-	coscup.ui.color.PROGRAM_TYPE_3 = 'yellow';
-	coscup.ui.color.PROGRAM_TYPE_4 = '#80ff00';
-	coscup.ui.color.PROGRAM_TYPE_5 = '#00FF00';
-	coscup.ui.color.PROGRAM_TYPE_6 = '#00ff80';
-	coscup.ui.color.PROGRAM_TYPE_7 = '#00FFFF';
-	coscup.ui.color.PROGRAM_TYPE_8 = '#007FFF';
-	coscup.ui.color.PROGRAM_TYPE_9 = 'blue';
-	coscup.ui.color.PROGRAM_TYPE_10 = '#7f00ff';
-	coscup.ui.color.PROGRAM_TYPE_11 = '#FF00FF';
-	coscup.ui.color.PROGRAM_TYPE_12 = '#ff0080';
-
 	coscup.ui.createIndicatorWin = function()
 	{
 		var win = Titanium.UI.createWindow({
 			backgroundColor: 'transparent'
 		});
 		
-		var indicatorContainer = Titanium.UI.createView({
-			width: 60,
-			height: 60,
-			backgroundColor: '#000',
-			borderRadius: 10,
-			opacity: 0.6
-		});
-		
-		var loading = Titanium.UI.createImageView({
-			image: 'images/loading.png',
-			width: 60,
-			width: 60
-		});
+		var indicatorContainer = Titanium.UI.createView(coscup.style.indicatorContainer);	
+		var loading = Titanium.UI.createImageView(coscup.style.loading);
 		
 		indicatorContainer.add(loading);
 		win.add(indicatorContainer);
@@ -46,10 +20,14 @@
 	};
 	
 	coscup.ui.init = function() {
-		switch (coscup.osname){
-			case 'andoird':
+		Ti.API.info(coscup.app.osname);
+		switch (coscup.app.osname){
+			case 'android':
 				coscup.appTabGroup = coscup.ui.createAppTabGroup();
 				coscup.appTabGroup.open();
+				coscup.appTabGroup.addEventListener('focus', function(e){
+					coscup.appTabGroup.activeTab.window.fireEvent('focus');
+				})
 				break;
 			
 			case 'iphone':
@@ -80,7 +58,7 @@
 			window: coscup.ui.createScheduleWin()
 		});
 		
-		coscup.data.programTab = Titanium.UI.createTab({
+		coscup.programTab = Titanium.UI.createTab({
 			title: _('program'),
 			window: coscup.ui.createProgramWin()
 		});
@@ -90,12 +68,6 @@
 			window: coscup.ui.createPlaceWin()
 		});
 		
-		/*
-		coscup.socialTab = Titanium.UI.createTab({
-			title: _('social'),
-			window: coscup.ui.createSocialWin()
-		});
-		*/
 		coscup.starredTab = Titanium.UI.createTab({
 			title: _('starred'),
 			window: coscup.ui.createStarredWin()
@@ -103,16 +75,14 @@
 		
 		appTabGroup.addTab(coscup.coscupTab);
 		appTabGroup.addTab(coscup.scheduleTab);
-		appTabGroup.addTab(coscup.data.programTab);
+		appTabGroup.addTab(coscup.programTab);
 		appTabGroup.addTab(coscup.placeTab);
-		//appTabGroup.addTab(coscup.socialTab);
 		appTabGroup.addTab(coscup.starredTab);
 		
 		coscup.coscupTab.icon = 'images/coscup_tab_icon.png';
 		coscup.scheduleTab.icon = 'images/schedule_tab_icon.png';
-		coscup.data.programTab.icon = 'images/program_tab_icon.png';
+		coscup.programTab.icon = 'images/program_tab_icon.png';
 		coscup.placeTab.icon = 'images/place_tab_icon.png';
-		//coscup.socialTab.icon = 'images/social_tab_icon.png';
 		coscup.starredTab.icon = 'images/star_tab_icon.png';
 
 		return appTabGroup;
@@ -122,40 +92,103 @@
 		var win = Titanium.UI.createWindow({
 			title: 'COSCUP',
 			backgroundColor: '#fff',
-			barColor: '#408937',
+			barColor: coscup.style.color.barColor,
 			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'})
-			//navBarHidden: true,
 		});
 	
-		var infoSection = Ti.UI.createTableViewSection();
-		infoSection.add(Ti.UI.createTableViewRow({title: _('about'), id: 'about', backgroundColor: '#fff'}));
-		infoSection.add(Ti.UI.createTableViewRow({title: _('venue'), id: 'venue', backgroundColor: '#fff'}));
-		infoSection.add(Ti.UI.createTableViewRow({title: _('sponsors'), id: 'sponsors', backgroundColor: '#fff'}));
-		infoSection.add(Ti.UI.createTableViewRow({title: _('blog'), id: 'blog', backgroundColor: '#fff'}));
+		var infoSection = Ti.UI.createTableViewSection({headerTitle: _('information')});
+		var aboutRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
+		aboutRow.title = _('about');
+		aboutRow.id = 'about';
+		infoSection.add(aboutRow);
 		
+		var venueRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
+		venueRow.title = _('venue');
+		venueRow.id = 'venue';
+		infoSection.add(venueRow);
+		
+		var sponsorsRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
+		sponsorsRow.title = _('sponsors');
+		sponsorsRow.id = 'sponsors';
+		infoSection.add(sponsorsRow);
+		
+		var blogRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
+		blogRow.title = _('blog');
+		blogRow.id = 'blog';
+		infoSection.add(blogRow);
 		
 		var socialSection = Ti.UI.createTableViewSection({headerTitle: _('social')});
-		socialSection.add(Ti.UI.createTableViewRow({title: _('twitter'), id: _('twitter'), backgroundColor: '#fff'}));
-		socialSection.add(Ti.UI.createTableViewRow({title: _('plurk'), id: _('plurk'), backgroundColor: '#fff'}));
 		
-		//var upcomingSection = Ti.UI.createTableViewSection({headerTitle: _('upcoming')});
-		//infoSection.add(Ti.UI.createTableViewRow({title: _('twitter')}));
+		var twitterRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
+		twitterRow.title = _('twitter');
+		twitterRow.id = 'twitter';
+		socialSection.add(twitterRow);
 
-		var data = [
-			infoSection,
-			socialSection,
-			//upcomingSection
-		];
-
-		var table = Titanium.UI.createTableView({data: data});
+		var plurkRow = Ti.UI.createTableViewRow(coscup.style.menuRow);
+		plurkRow.title = _('plurk');
+		plurkRow.id = 'plurk';
+		socialSection.add(plurkRow);
 		
-		if(coscup.osname === 'iphone' || coscup.osname === 'ipad')
+		function isUpcoming(element, index, array) {
+			//Ti.API.info(element.from);
+			//Ti.API.info(new Date().getTime()/1000);
+			return (element.from > new Date().getTime()/1000);
+		}
+
+		function isOnGoing(element, index, array) {
+			return (element.from > new Date().getTime()/1000 && element.to < new Date().getTime()/1000);
+		}		
+		
+		function createUpcomingSection(){
+			var section = Ti.UI.createTableViewSection({headerTitle: _('upcoming')});
+		
+			for(var i = 0, l = coscup.data.getProgramRooms().length; i < l; i++){
+				var upcomingPrograms = coscup.data.getProgramByRoomId(i).filter(isUpcoming);
+				if(upcomingPrograms.length > 0){
+					
+					programId = upcomingPrograms[0].id;
+					var roomRow = coscup.ui.createProgramRow(coscup.data.getProgramById(programId));
+					roomRow.id = 'program';
+					roomRow.programId = programId;
+					roomRow.header = 'coscup.data.getProgramRooms()[i][coscup.i18n.locale]';
+					section.add(roomRow);
+				}
+			}
+	
+			if(section.rowCount === 0){
+				var row = Titanium.UI.createTableViewRow({title: _('see_you_next_year'), backgroundColor: '#fff'});
+				section.add(row);
+			}
+			
+			return section;
+		}
+
+		var table = Titanium.UI.createTableView();
+		
+		table.showData = function(){
+			var upcomingSection = createUpcomingSection();
+			if(new Date() < new Date(2011, 7, 20)){
+				var data = [
+				infoSection,
+				socialSection,
+				upcomingSection
+				];
+			}else{
+				var data = [
+				upcomingSection,
+				infoSection,
+				socialSection
+				];			
+			}
+			table.setData(data);
+		}
+		
+		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad')
 		{
 			table.style = Titanium.UI.iPhone.TableViewStyle.GROUPED;
-			if(coscup.osname === 'ipad'){
+			if(coscup.app.osname === 'ipad'){
 				table.backgroundColor = '#eee';
 			}
-			//table.backgroundImage = 'images/background.jpg';
 			
 			var infoButton = Titanium.UI.createButton({
 				systemButton: Titanium.UI.iPhone.SystemButton.INFO_LIGHT
@@ -189,8 +222,8 @@
 						coscup.network.updateAll(function(){
 							Ti.API.info('Data updated');
 							Ti.API.info('program:' + coscup.data.program);
-							Ti.API.info('programTypes:' + coscup.data.programTypes);
-							Ti.API.info('programRooms:' + coscup.data.programRooms);
+							Ti.API.info('programTypes:' + coscup.data.getProgramTypes());
+							Ti.API.info('programRooms:' + coscup.data.getProgramRooms()());
 							coscup.ui.init();
 						});
 					}
@@ -201,7 +234,7 @@
 		
 		table.addEventListener('click', function(e){
 			var url;
-			switch (e.source.id){
+			switch (e.rowData.id){
 				case 'about':
 				url = 'http://coscup.org/2011/'+coscup.i18n.locale+'/about/';
 				coscup.appTabGroup.activeTab.open(coscup.ui.createWebSummaryWin({title: _(e.source.id), keyword: e.source.id}));
@@ -231,21 +264,55 @@
 				var plurkWin = coscup.ui.createWebWin({title: _(e.source.id), webUrl: 'http://www.plurk.com/coscup'});
 				coscup.appTabGroup.activeTab.open(plurkWin);
 				break;
+				
+				case 'program':
+				
+				if(e.x < 55)
+				{	
+					if(coscup.data.isStarred(e.source.programId)){
+						Ti.API.info('unstar ' + e.source.programId);
+						coscup.data.unstarProgramById(e.rowData.programId, function(){
+							Ti.API.info('unstarred');
+							if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
+								e.rowData.children[2].image = 'images/unstarred.png';
+							}else if(coscup.app.osname === 'android'){
+								table.showData();
+							}
+						});
+					}else{
+						Ti.API.info('star ' + e.source.programId);
+						coscup.data.starProgramById(e.rowData.programId, function(){
+							Ti.API.info('starred');
+							if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
+								e.rowData.children[2].image = 'images/starred.png';
+							}else if(coscup.app.osname === 'android'){
+								table.showData();
+							}
+						});
+					}
+				}else{
+					coscup.appTabGroup.activeTab.open(coscup.ui.createProgramDetailWin(e.rowData.programId));
+				}
+				
+				break;
 			}			
-			
 		});
 
-		//win.add(header);
 		win.add(table);
+		table.showData();
+		
+		win.addEventListener('focus', function(){
+			table.showData();
+		});	
 		return win;
 	}
 	
 	coscup.ui.createVenueWin = function(){
 		var win = Titanium.UI.createWindow({
 			title: _('venue'),
-			barColor: '#408937',
-			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'}),
+			barColor: coscup.style.color.barColor,
 			backgroundColor: '#fff',
+			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'}),
 			tabBarHidden: true
 		});
 		
@@ -268,11 +335,10 @@
 				    title: _('hss_building'),
 				    pincolor: Titanium.Map.ANNOTATION_RED,
 				    animate: true,
-					//leftButton: '/images/zoom.png',
 					rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE
 		});
 		
-		if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
 			var directionButtion = Titanium.UI.createButton({
 				title: _('directions')
 			});
@@ -285,7 +351,6 @@
 			});
 		}
 
-		
 		mapView.annotations = [venue];
 		win.add(mapView);
 		
@@ -324,12 +389,12 @@
 	coscup.ui.createScheduleWin = function(){
 		var win = Titanium.UI.createWindow({
 			title: _('schedule'),
-			barColor: '#408937',
+			barColor: coscup.style.color.barColor,
 			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'}),
 			backgroundColor: '#fff'
 		});
 		
-		if(coscup.osname === 'iphone' || coscup.osname === 'ipad')
+		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad')
 		{
 			var toolbar = Titanium.UI.createView({
 				backgroundImage: 'images/toolbar_bg.png',
@@ -373,58 +438,105 @@
 		
 		var day1Table = coscup.ui.createProgramTableView({headerType: 'time'}, coscup.data.program.sortOn('from').filter(isDay1));
 		var day2Table = coscup.ui.createProgramTableView({headerType: 'time'}, coscup.data.program.sortOn('from').filter(isDay2));
+		day1Table.id = 'day1Table';
+		day2Table.id = 'day2Table';
 		
-		var tableContainer = Titanium.UI.createScrollableView({
+		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad')
+		{
+			var tableContainer = Titanium.UI.createScrollableView({
 			top: 40,
 			views: [day1Table, day2Table]
-		});
+			});
 		
-		if(coscup.osname === 'iphone' || coscup.osname === 'ipad')
-		{
 			tableContainer.addEventListener('scroll', function(e){
 				if(e.source === tableContainer)
 				{
 					dataTabbedBar.index = e.currentPage;
 				}
 			});
-		}else if(coscup.osname === 'android')
+			win.add(tableContainer);
+			
+		}else if(coscup.app.osname === 'android')
 		{
-			var dayLabel = Titanium.UI.createLabel({
-				text: _('day_1'),
+			day1Table.top = '50dp';
+			day2Table.top = '50dp';
+			win.add(day1Table);
+			win.add(day2Table);
+			day1Table.show();
+			day2Table.hide();
+			
+			var buttonContainer = Titanium.UI.createView({
+				width: '320dp',
+				height: '50dp',
+				top: 2
+			});
+			
+			if(Titanium.Platform.displayCaps.platformWidth > 640){
+				buttonContainer.left = 0;
+			}
+			
+			var day1Button = Titanium.UI.createButton({
+				title: _('day_1'),
 				top: 0,
-				height: 40
+				left: 0,
+				width: '50%',
+				height: '50dp',
+				enabled: false
 			});
 			
-			win.add (dayLabel);
-			
-			tableContainer.addEventListener('scroll', function(e){
-				if(e.source === tableContainer)
-				{
-					dayLabel.text = _('day_'+(e.currentPage+1));
-				}
+			var day2Button = Titanium.UI.createButton({
+				title: _('day_2'),
+				top: 0,
+				left: '50%',
+				width: '50%',
+				height: '50dp'
 			});
-		}
+			
+			buttonContainer.add(day1Button);
+			buttonContainer.add(day2Button);
+			win.add(buttonContainer);
+			
+			day1Button.addEventListener('click', function(e){
+				day1Table.show();
+				day1Button.enabled = false;
+				day2Table.hide();
+				day2Button.enabled = true;
+			});
 
-		win.add(tableContainer);
+			
+			day2Button.addEventListener('click', function(e){
+				day1Table.hide();
+				day1Button.enabled = true;
+				day2Table.show();
+				day2Button.enabled = false;
+			});		
+		}
+		
+		if(coscup.app.osname === 'android'){
+			win.addEventListener('focus', function(){
+				day1Table.showData();
+				day2Table.showData();
+			});			
+		}
 		return win;
 	}
 	
 	coscup.ui.createProgramWin = function(){
 		var win = Titanium.UI.createWindow({
 			title: _('program'),
-			barColor: '#408937',
+			barColor: coscup.style.color.barColor,
 			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'})
 		});
+	
 		var table = coscup.ui.createProgramTypeTableView();
-		win.add(table);
-		
+			win.add(table);
 		
 		return win;
 	}
 	
 	coscup.ui.createProgramListWin = function(option, type){
 		var win = Titanium.UI.createWindow(option);
-		win.barColor = '#408937';
+		win.barColor = coscup.style.color.barColor;
 		function isType(element, index, array) {
 			if(type == 0)
 			{
@@ -438,20 +550,25 @@
 		var table;
 		if(type == 0)
 		{
-			table = coscup.ui.createProgramTableView({headerType: 'type'}, coscup.data.program.sortOn('type').filter(isType));
+			table = coscup.ui.createProgramTableView({headerType: 'type', searchbar: true}, coscup.data.program.sortOn('type').filter(isType));
+			table.id = 'typeTable'
 		}else{
-			table = coscup.ui.createProgramTableView({headerType: 'day'}, coscup.data.program.sortOn('from').filter(isType));
+			table = coscup.ui.createProgramTableView({headerType: 'day', searchbar: true}, coscup.data.program.sortOn('from').filter(isType));
+			table.id = 'allProgramTable'
 		}
 		
 		win.add(table);
-
+		
+		win.addEventListener('focus', function(){
+			table.showData();
+		});
 		return win;
 	}
 	
 	coscup.ui.createProgramDetailWin = function(programId){
 		var win = Titanium.UI.createWindow({
 			tabBarHidden: true,
-			barColor: '#408937',
+			barColor: coscup.style.color.barColor,
 			title: _('info')
 		});
 		Ti.API.info('programId:'+ programId);
@@ -462,8 +579,8 @@
 			{
 				var program = coscup.data.program[i];
 				
-				var duration = new Date(program.from*1000).toString("HH:mm") + '-' +new Date(program.to*1000).toString("HH:mm");
-				var room = coscup.data.programRooms[program.room][coscup.i18n.locale];
+				var duration = new Date(program.from*1000).hhmm() + '-' +new Date(program.to*1000).hhmm();
+				var room = coscup.data.getProgramRooms()[program.room][coscup.i18n.locale];
 				var day = new Date(program.from*1000).getDay();
 				
 				switch (day)
@@ -500,9 +617,9 @@
 				var starImageView = Titanium.UI.createImageView({
 					className: 'star',
 					programId: program.id,
-					width: 30,
-					height: 30,
-					left: 15
+					width: '30dp',
+					height: '30dp',
+					left: '15dp'
 				});
 				
 				if(coscup.data.isStarred(program.id)){
@@ -512,6 +629,7 @@
 				}
 				
 				starImageView.addEventListener('click', function(e){
+					coscup.currentProgramTableView = null;
 					if(coscup.data.isStarred(program.id)){
 						coscup.data.unstarProgramById(program.id, function(){
 							starImageView.image = 'images/unstarred.png';
@@ -524,55 +642,18 @@
 					Titanium.App.fireEvent('app:starUpdate');
 				});
 				
-				var nameLabel = Titanium.UI.createLabel({
-					text: program.name,
-					textAlign: 'left',
-					color: '#000',
-					font: {
-						fontWeight: 'bold',
-						fontSize: 16
-					},
-					right: 10,
-					top: 30,
-					height: 'auto',
-					left: 60,
-					bottom: 30
-				});
+				var nameLabel = Titanium.UI.createLabel(coscup.style.programNameLabel);
+				nameLabel.text = program.name;
 				
-				var timeRoomLabel = Titanium.UI.createLabel({
-					text: day + ' ' + duration + ' ' + room,
-					textAlign: 'left',
-					color: '#666',
-					font: {
-						fontSize: 14
-					},
-					width: 200,
-					height: 16,
-					left: 60,
-					bottom: 10	
-				});
+				var timeRoomLabel = Titanium.UI.createLabel(coscup.style.timeRoomLabel);
+				timeRoomLabel.text = day + ' ' + duration + ' ' + room;
 				
-				var colorDot = Titanium.UI.createView({
-					backgroundColor: coscup.ui.color['PROGRAM_TYPE_'+program.type],
-					borderRadius: 4,
-					width: 6,
-					height: 6,
-					left: 63,
-					top: 15
-				});
+				var colorDot = Titanium.UI.createView(coscup.style.smallColorDot);
+				colorDot.backgroundColor = coscup.style.color['PROGRAM_TYPE_'+program.type];
+		
 				
-				var programTypeLabel = Titanium.UI.createLabel({
-					text: coscup.data.programTypes[program.type],
-					textAlign: 'left',
-					color: '#666',
-					font: {
-						fontSize: 14
-					},
-					width: 200,
-					height: 16,
-					left: 73,
-					top: 10	
-				});
+				var programTypeLabel = Titanium.UI.createLabel(coscup.style.programTypeLabel);
+				programTypeLabel.text = coscup.data.getProgramTypes()[program.type];
 				
 				var infoContainer = Titanium.UI.createView({
 					left: 0,
@@ -581,7 +662,7 @@
 					height: 'auto'
 				});
 				
-				if(coscup.osname === 'android')
+				if(coscup.app.osname === 'android')
 				{
 					infoContainer.height = 150;
 				}
@@ -621,68 +702,109 @@
 				 var summary = Titanium.UI.createWebView({
 				 	html: html,
 				 	width: '100%',
-				 	top: infoContainer.toImage().height,
 				 	bottom: 0,
 					backgroundColor: '#fff'
 				 })
 				
-				if(coscup.osname === 'android')
+				if(coscup.app.osname === 'android')
 				{
 					summary.top = 150;
 				}
 				
 				win.add(infoContainer);
 				win.add(summary);
+				summary.top = infoContainer.toImage().height;
 				break;
 			}
 			
 		}
 		return win;
 	}
-	
-	coscup.ui.createProgramListTableView = function()
-	{
-		var table = Titanium.UI.createTableView();
-		return table;
-	}
-	
+
 	coscup.ui.createPlaceWin = function(){
 		var win = Titanium.UI.createWindow({
-			barColor: '#408937',
+			barColor: coscup.style.color.barColor,
 			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'})
 		});
-		
-		var floorplan3F = Titanium.UI.createImageView({image: 'images/floorplan3F.png'});
-		
-		var floorplan3FContainer = Titanium.UI.createScrollView({
-			contentWidth: 'auto',
-			contentHeight: 'auto',
-			maxZoomScale: 2,
-			minZoomScale: 1
-		});
-		
-		floorplan3FContainer.add(floorplan3F);
-		
-		var floorplan4F = Titanium.UI.createImageView({image: 'images/floorplan4F.png'});
-		var floorplan4FContainer = Titanium.UI.createScrollView({
-			contentWidth: 'auto',
-			contentHeight: 'auto',
-			maxZoomScale: 2,
-			minZoomScale: 1,
-			top: 44
-		});
-		
-		floorplan4FContainer.add(floorplan4F);
-		
-		var floorplanContainer = Titanium.UI.createScrollableView({
-			views: [floorplan3FContainer, floorplan4FContainer]
-		});
-		
-		win.add(floorplanContainer);
-		
-		if(coscup.osname === 'iphone' || coscup.osname === 'ipad')
-		{
-			var toolbar = Titanium.UI.createView({
+				
+		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
+			if(coscup.app.osname === 'ipad'){
+				var floorPlan3F = Titanium.UI.createImageView(coscup.style.ipad.floorPlanImageView);
+				floorPlan3F.image = 'images/floorplan3f_high.png';
+				var floorPlan4F = Titanium.UI.createImageView(coscup.style.ipad.floorPlanImageView);
+				floorPlan4F.image = 'images/floorplan4f_high.png';
+				/*
+				floorPlan3F.addEventListener('click', function(e){
+					var roomId;
+					if((e.x > 152 && e.y > 252) && (e.x < 240 && e.y < 396)){
+						Ti.API.info('conference room 2');
+						roomId = 3;					
+					}else if((e.x > 252 && e.y > 228) && (e.x < 380 && e.y < 390)){
+						Ti.API.info('international conference room');
+						roomId = 1;	
+					}else if((e.x > 376 && e.y > 274) && (e.x < 495 && e.y < 404)){
+						Ti.API.info('conference room 1');
+						roomId = 2;	
+					}
+					
+					function isUpcoming(element, index, array) {
+					  return (element.from > new Date().getTime()/1000);
+					} 
+					program = coscup.data.getProgramByRoomId(roomId).filter(isUpcoming)[0].id;
+					coscup.appTabGroup.activeTab.open(coscup.ui.createProgramDetailWin(program.id));
+					
+					Ti.API.info(program);
+				});
+				
+				floorPlan4F.addEventListener('click', function(e){
+					if((e.x > 236 && e.y > 240) && (e.x < 409 && e.y < 470)){
+						Ti.API.info('international conference room');
+						Ti.API.info(coscup.data.getProgramByRoomId(1));
+						alert(coscup.data.getProgramRooms()[1][coscup.i18n.locale]);
+					}else if((e.x > 249 && e.y > 134) && (e.x < 373 && e.y < 218)){
+						Ti.API.info('conference room 3');
+						Ti.API.info(coscup.data.getProgramByRoomId(4));
+						alert(coscup.data.getProgramRooms()[4][coscup.i18n.locale]);
+					}
+				});
+					*/	
+			}else if(coscup.app.osname === 'iphone'){
+				var floorPlan3F = Titanium.UI.createImageView(coscup.style.iphone.floorPlanImageView);
+				floorPlan3F.image = 'images/floorplan3f_high.png';
+				var floorPlan4F = Titanium.UI.createImageView(coscup.style.iphone.floorPlanImageView);
+				floorPlan4F.image = 'images/floorplan4f_high.png';
+				/*
+				floorPlan3F.addEventListener('click', function(e){
+					if((e.x > 76 && e.y > 125) && (e.x < 120 && e.y < 200)){
+						Ti.API.info('conference room 2');
+						alert(coscup.data.getProgramRooms()[3][coscup.i18n.locale]);
+					}else if((e.x > 125 && e.y > 114) && (e.x < 190 && e.y < 180)){
+						Ti.API.info('international conference room');
+						alert(coscup.data.getProgramRooms()[1][coscup.i18n.locale]);
+					}else if((e.x > 76 && e.y > 137) && (e.x < 250 && e.y < 200)){
+						Ti.API.info('conference room 1');
+						alert(coscup.data.getProgramRooms()[2][coscup.i18n.locale]);
+					}
+				});
+				
+				floorPlan4F.addEventListener('click', function(e){
+					if((e.x > 118 && e.y > 120) && (e.x < 204 && e.y < 285)){
+						Ti.API.info('international conference room');
+						alert(coscup.data.getProgramRooms()[1][coscup.i18n.locale]);
+					}else if((e.x > 125 && e.y > 67) && (e.x < 182 && e.y < 109)){
+						Ti.API.info('conference room 3');
+						alert(coscup.data.getProgramRooms()[4][coscup.i18n.locale]);
+					}
+				});
+				*/	
+			}
+
+			var floorPlanContainer = Titanium.UI.createScrollableView({
+				views: [floorPlan3F, floorPlan4F]
+			});
+			win.add(floorPlanContainer);
+			
+				var toolbar = Titanium.UI.createView({
 				backgroundImage: 'images/toolbar_bg.png',
 				top: -1,
 				weight: '100%',
@@ -702,62 +824,241 @@
 				switch(e.index)
 				{
 					case 0:
-		   	 		floorplanContainer.scrollToView(0);
+		   	 		floorPlanContainer.scrollToView(0);
   					break;
 					
 					case 1:
-		   	 		floorplanContainer.scrollToView(1);
+		   	 		floorPlanContainer.scrollToView(1);
 					break;
 				}
 			});
 			
-			floorplanContainer.addEventListener('scroll', function(e){
-				if(e.source === floorplanContainer)
+			floorPlanContainer.addEventListener('scroll', function(e){
+				if(e.source === floorPlanContainer)
 				{
 					floorTabbedBar.index = e.currentPage;
 				}
 			});
+			
 			win.add(toolbar);
 			win.add(floorTabbedBar);
-		}else if(coscup.osname === 'android')
-		{
 			
-			var floorLabel = Titanium.UI.createLabel({
-				text: _('floor_3F'),
-				top: 0,
-				height: 40
-			});
-			
-			win.add (floorLabel);
-			
-			floorplanContainer.addEventListener('scroll', function(e){
-				if(e.source === floorplanContainer)
-				{
-					floorLabel.text = _('floor_' + (e.currentPage + 3) + 'F');
+		}else if(coscup.app.osname === 'android'){		
+			if(coscup.app.version >= 3){
+				win.orientationModes = [Titanium.UI.LANDSCAPE];
+				var floorPlan3F = Titanium.UI.createImageView(coscup.style.androidTablet.floorPlanImageView);		
+				var floorPlan4F = Titanium.UI.createImageView(coscup.style.androidTablet.floorPlanImageView);
+				
+				var floor3FLabel = Titanium.UI.createLabel(coscup.style.androidTablet.floorPlanLabel);
+				floor3FLabel.text = _('floor3');
+				
+				var floor4FLabel = Titanium.UI.createLabel(coscup.style.androidTablet.floorPlanLabel);
+				floor4FLabel.text = _('floor4');		
+				
+				var floor3FContainer = Titanium.UI.createView({
+					width: '640dp',
+					height: '640dp',
+					left: 0
+				});
+
+				var floor4FContainer = Titanium.UI.createView({
+					width: '640dp',
+					height: '640dp',
+					right: 0
+				});
+				
+				floor3FContainer.add(floor3FLabel);
+				floor3FContainer.add(floorPlan3F);
+
+				floor4FContainer.add(floor4FLabel);
+				floor4FContainer.add(floorPlan4F);
+				
+				floorPlan3F.image = 'images/floorplan3f_high.png';
+				floorPlan4F.image = 'images/floorplan4f_high.png';
+				/*
+				floorPlan3F.addEventListener('click', function(e){
+					if((e.x > 152 && e.y > 252) && (e.x < 240 && e.y < 396)){
+						Ti.API.info('conference room 2');
+						alert(coscup.data.getProgramRooms()[3][coscup.i18n.locale]);
+					}else if((e.x > 252 && e.y > 228) && (e.x < 380 && e.y < 390)){
+						Ti.API.info('international conference room');
+						alert(coscup.data.getProgramRooms()[1][coscup.i18n.locale]);
+					}else if((e.x > 376 && e.y > 274) && (e.x < 495 && e.y < 404)){
+						Ti.API.info('conference room 1');
+						alert(coscup.data.getProgramRooms()[2][coscup.i18n.locale]);
+					}
+				});
+				
+				floorPlan4F.addEventListener('click', function(e){
+					if((e.x > 236 && e.y > 240) && (e.x < 409 && e.y < 470)){
+						Ti.API.info('international conference room');
+						alert(coscup.data.getProgramRooms()[1][coscup.i18n.locale]);
+					}else if((e.x > 249 && e.y > 134) && (e.x < 373 && e.y < 218)){
+						Ti.API.info('conference room 3');
+						alert(coscup.data.getProgramRooms()[4][coscup.i18n.locale]);
+					}
+				});
+				*/	
+				win.add(floor3FContainer);
+				win.add(floor4FContainer);
+				
+				function switchLayout(orientation){
+					switch (orientation)
+					{
+						case Titanium.UI.PORTRAIT:
+							floor3FContainer.top = 0;
+							floor4FContainer.bottom = 0;
+							floor3FContainer.left = null;
+							floor4FContainer.left = null;
+							floor3FContainer.right = null;
+							floor4FContainer.right = null;
+							break;
+							
+						case Titanium.UI.UPSIDE_PORTRAIT:
+							floor3FContainer.top = 0;
+							floor4FContainer.bottom = 0;
+							floor3FContainer.left = null;
+							floor4FContainer.left = null;
+							floor3FContainer.right = null;
+							floor4FContainer.right = null;
+							break;
+												
+						case Titanium.UI.LANDSCAPE_LEFT:
+							floor3FContainer.left = 0;
+							floor4FContainer.right = 0;	
+							floor3FContainer.top = null;
+							floor4FContainer.top = null;
+							floor3FContainer.bottom = null;
+							floor4FContainer.bottom = null;
+							break;
+						
+						case Titanium.UI.LANDSCAPE_RIGHT:
+							floor3FContainer.left = 0;
+							floor4FContainer.right = 0;	
+							floor3FContainer.top = null;
+							floor4FContainer.top = null;
+							floor3FContainer.bottom = null;
+							floor4FContainer.bottom = null;
+							break;							
+					}
+				}	
+				Titanium.Gesture.addEventListener('orientationchange', function (e) {
+					switchLayout(e.orientation);		
+				});
+				
+				switchLayout(Titanium.UI.orientation);
+				
+			}else {
+				var floorPlan3F = Titanium.UI.createImageView(coscup.style.android.floorPlanImageView);		
+				var floorPlan4F = Titanium.UI.createImageView(coscup.style.android.floorPlanImageView);
+				
+				if(Titanium.Platform.displayCaps.platformWidth > 320){
+					floorPlan3F.image = 'images/floorplan3f_high.png';
+					floorPlan4F.image = 'images/floorplan4f_high.png';
+					
+				}else{
+					floorPlan3F.image = 'images/floorplan3f.png';
+					floorPlan4F.image = 'images/floorplan4f.png';				
 				}
-			});
+				/*
+				floorPlan3F.addEventListener('click', function(e){
+					if((e.x > 76 && e.y > 125) && (e.x < 120 && e.y < 200)){
+						Ti.API.info('conference room 2');
+						alert(coscup.data.getProgramRooms()[3][coscup.i18n.locale]);
+					}else if((e.x > 125 && e.y > 114) && (e.x < 190 && e.y < 180)){
+						Ti.API.info('international conference room');
+						alert(coscup.data.getProgramRooms()[1][coscup.i18n.locale]);
+					}else if((e.x > 76 && e.y > 137) && (e.x < 250 && e.y < 200)){
+						Ti.API.info('conference room 1');
+						alert(coscup.data.getProgramRooms()[2][coscup.i18n.locale]);
+					}
+				});
+				
+				floorPlan4F.addEventListener('click', function(e){
+					if((e.x > 118 && e.y > 120) && (e.x < 204 && e.y < 285)){
+						Ti.API.info('international conference room');
+						alert(coscup.data.getProgramRooms()[1][coscup.i18n.locale]);
+					}else if((e.x > 125 && e.y > 67) && (e.x < 182 && e.y < 109)){
+						Ti.API.info('conference room 3');
+						alert(coscup.data.getProgramRooms()[4][coscup.i18n.locale]);
+					}
+				});
+				*/
+				Ti.API.info(floorPlan3F.image);
+				Ti.API.info(floorPlan4F.image);
+				floorPlan3F.top = '50dp';
+				floorPlan4F.top = '50dp';
+				
+				win.add(floorPlan4F);
+				win.add(floorPlan3F);
+				floorPlan3F.show();
+				floorPlan4F.hide();
+				
+				var buttonContainer = Titanium.UI.createView({
+					width: '320dp',
+					height: '50dp',
+					top: 5
+				});
+				
+				var floor3FButton = Titanium.UI.createButton({
+					title: _('floor3'),
+					top: 0,
+					left: 0,
+					width: '50%',
+					height: '50dp',
+					enabled: false
+				});
+				
+				var floor4FButton = Titanium.UI.createButton({
+					title: _('floor4'),
+					top: 0,
+					left: '50%',
+					width: '50%',
+					height: '50dp'
+				});
+				
+				buttonContainer.add(floor3FButton);
+				buttonContainer.add(floor4FButton);
+				win.add(buttonContainer);
+				
+				floor3FButton.addEventListener('click', function(e){
+					floorPlan3F.show();
+					floor3FButton.enabled = false;
+					floorPlan4F.hide();
+					floor4FButton.enabled = true;
+				});
+			
+				floor4FButton.addEventListener('click', function(e){
+					floorPlan3F.hide();
+					floor3FButton.enabled = true;
+					floorPlan4F.show();
+					floor4FButton.enabled = false;
+				});			
+			}	
 		}
-		
+
 		return win;
 	}
-	/*
-	coscup.ui.createSocialWin = function(){
-		var win = Titanium.UI.createWindow({
-			barColor: '#408937',
-			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'})
-		});
-		
-		return win;
-	}*/
+
 	
 	coscup.ui.createStarredWin = function(){
 		var win = Titanium.UI.createWindow({
-			barColor: '#408937',
+			barColor: coscup.style.color.barColor,
 			title: _('starred'),
 			titleControl: Titanium.UI.createImageView({image: 'images/logo.png'})
 		});
 		
-		if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+		var noDataView = Titanium.UI.createLabel({
+			text: _('no_starred_program'),
+			color: '#333',
+			font: {
+				fontSize: 20
+			},
+			textAlign: 'center',
+			visible: false
+			});
+				
+		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
 			var clearButton = Titanium.UI.createButton({
 				title: _('clear')
 			});
@@ -784,7 +1085,7 @@
 			
 			actionButtion.addEventListener('click', function()
 			{	
-				if(coscup.osname === 'iphone'){
+				if(coscup.app.osname === 'iphone'){
 					var dialog = Titanium.UI.createOptionDialog({
 						options: [_('sent_via_email'), _('cancel')],
 					    cancel: 3
@@ -811,7 +1112,7 @@
 						}
 					});
 					dialog.show();
-				}else if(coscup.osname === 'ipad'){
+				}else if(coscup.app.osname === 'ipad'){
 					actionButtion.enabled = false;
 					var container = Titanium.UI.createView();
 					var emailButton = Titanium.UI.createButton({
@@ -849,12 +1150,32 @@
 			win.rightNavButton = actionButtion;
 		}
 
-		var table =  coscup.ui.createStarredProgramTableView({headerType: 'day'}, coscup.data.program);
-		win.add(table);
+		var table =  coscup.ui.createStarredProgramTableView({searchbar: false}, coscup.data.program);
 		
-		win.addEventListener('focus', function(){
-			table.showData();
+		win.add(table);
+		win.add(noDataView);
+		table.showData();
+		
+		toggleNoDataView();
+		
+		function toggleNoDataView(){
+			if(coscup.data.getStarredPrograms().length === 0){
+				noDataView.show();
+				table.hide();
+			}else{
+				noDataView.hide();
+				table.show();
+			}
+		}
+		
+		Titanium.App.addEventListener('app:toggleNoDataMessage', function(e){
+			toggleNoDataView();
 		});
+		
+		win.addEventListener('open', function(){
+			Titanium.App.fireEvent('app:toggleNoDataMessage');
+		});
+		
 		return win;
 	}
 	
@@ -866,9 +1187,11 @@
 		
 		var table = Titanium.UI.createTableView(option);
 		table.filterAttribute = 'filter';
-		table.search = search;
+		if(option.searchbar){
+			table.search = search;	
+		}
 		var data;
-
+			
 		table.showData = function(){
 			data = [];
 			for(var i = 0, l = programs.length; i<l; i++)
@@ -878,75 +1201,79 @@
 				var row = coscup.ui.createProgramRow(program);
 				//
 				var theDay;
-				switch (option.headerType)
-				{
-					case 'day':
-					if(program.from < new Date(2011,7,21).getTime()/1000)
+				if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
+					switch (option.headerType)
 					{
-						row.header = _('day_1');
-					}else if(program.from > new Date(2011,7,21).getTime()/1000){
-						row.header = _('day_2');
-					}
-					theDay = row.header;
-					
-					if(i>0){
-						if(row.header == theDay)
+						case 'day':
+						if(program.from < new Date(2011,7,21).getTime()/1000)
 						{
-							delete row.header;
+							row.header = _('day_1');
+						}else if(program.from > new Date(2011,7,21).getTime()/1000){
+							row.header = _('day_2');
 						}
-					}
-					break;
-					
-					case 'time':
-					if(i === 0)
-					{
-						row.header = row.duration;
-					}
-					else if(i>0){
-						if(data[i-1].duration != row.duration)
+						theDay = row.header;
+						
+						if(i>0){
+							if(row.header == theDay)
+							{
+								delete row.header;
+							}
+						}
+						break;
+						
+						case 'time':
+						if(i === 0)
 						{
 							row.header = row.duration;
 						}
-					}
-					break;
-					
-					case 'type':
-					if(i === 0)
-					{
-						row.header = coscup.data.programTypes[row.type];
-					}
-					else if(i>0){
-						if(data[i-1].type != row.type)
-						{
-							row.header = coscup.data.programTypes[row.type];
+						else if(i>0){
+							if(data[i-1].duration != row.duration)
+							{
+								row.header = row.duration;
+							}
 						}
-					}
-					break;
-					
-					default:
-					break;
+						break;
+						
+						case 'type':
+						if(i === 0)
+						{
+							row.header = coscup.data.getProgramTypes()[row.type];
+						}
+						else if(i>0){
+							if(data[i-1].type != row.type)
+							{
+								row.header = coscup.data.getProgramTypes()[row.type];
+							}
+						}
+						break;
+						
+						default:
+						break;
+					}					
 				}
 
 				data.push(row);
 			}
-			
 			table.setData(data);
 		}
 		
 		table.addEventListener('click', function(e){
 			coscup.currentProgramTableView = table;
-			if(e.source.className === 'star')
+			Ti.API.info('currentProgramTableView: '+ table.id);
+			if(e.x < 55)
 			{
-				//alert(coscup.data.isStarred(e.source.programId));
-				var unstarCallback = function(){
-					e.source.image = 'images/unstarred.png';
-				}
+				Ti.API.info('======' + e.index + '======');
+				Ti.API.info(e.rowData);
 				
 				if(coscup.data.isStarred(e.source.programId)){
-					coscup.data.unstarProgramById(e.source.programId, unstarCallback);
+					Ti.API.info('unstar ' + e.source.programId);
+					coscup.data.unstarProgramById(e.rowData.programId, function(){
+						Ti.API.info('unstarred');
+					});
 				}else{
-					coscup.data.starProgramById(e.source.programId, function(){
-						e.source.image = 'images/starred.png';
+					Ti.API.info('star ' + e.source.programId);
+					coscup.data.starProgramById(e.rowData.programId, function(){
+						Ti.API.info('starred');
 					});
 				}
 			}else
@@ -960,24 +1287,41 @@
 		table.showData();
 		
 		Titanium.App.addEventListener('app:starUpdate', function(e){
-			Ti.API.info('app:starUpdate triggerer!');
-			for(var i = 0, l = data.length; i < l; i++){
-				var program = data[i];
-				if(program.programId === e.id){
-					var row = coscup.ui.createProgramRow(coscup.data.getProgramById(e.id));
-					var highlightView = Titanium.UI.createView({backgroundColor: '#FFFFCC', width: '100%', height: '100%', left: 0, top: 0});
-					if(coscup.currentProgramTableView === table){
-						row.add(highlightView);		
-						var animation = Titanium.UI.createAnimation();
-						animation.opacity = 0;
-						animation.duration = 500;
-						table.updateRow(i, row);
-						highlightView.animate(animation);
-					} else{
-						table.updateRow(i, row);
+			Ti.API.info(table.id + ' => app:starUpdate triggered!');
+			
+			if(coscup.currentProgramTableView != table){
+				if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
+					for(var i = 0, l = data.length; i < l; i++){
+						var program = data[i];
+						if(program.programId === e.id){
+							var row = coscup.ui.createProgramRow(coscup.data.getProgramById(e.id));
+							table.updateRow(i, row);
+						}
 					}
-				}			
+				}else if(coscup.app.osname === 'android'){
+					// UpdateRow function in tables that on a inactive window is not stable
+					// The workaround is update the data while the window focused
+				}
+			} else {
+				for(var i = 0, l = data.length; i < l; i++){
+					var program = data[i];
+					if(program.programId === e.id){
+						var row = coscup.ui.createProgramRow(coscup.data.getProgramById(e.id));
+						if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
+							var highlightView = Titanium.UI.createView(coscup.style.highlight);
+							row.add(highlightView);
+							var animation = Titanium.UI.createAnimation();
+							animation.opacity = 0;
+							animation.duration = 500;
+							table.updateRow(i, row);
+							highlightView.animate(animation);
+						} else if(coscup.app.osname === 'android'){
+							table.updateRow(i, row);
+						}
+					}	
+				}				
 			}
+			Titanium.App.fireEvent('app:toggleNoDataMessage');
 		});
 		
 		
@@ -995,99 +1339,92 @@
 		});
 		
 		var table = Titanium.UI.createTableView(option);
+		table.id = 'starredTable';
 		table.filterAttribute = 'filter';
-		table.search = search;
+		if(option.searchbar){
+			table.search = search;	
+		}
 		var data;
 
 		table.showData = function(){
 			data = [];
-			for(var i = 0, l = programs.length; i<l; i++)
+			var starredPrograms = coscup.data.getStarredPrograms();
+
+			for(var i = 0, l = starredPrograms.length; i<l; i++)
 			{
-				var program = programs[i];
+				var program = coscup.data.getProgramById(starredPrograms[i]);
 				
 				var row = coscup.ui.createProgramRow(program);
-				//
+				
 				var theDay;
-				switch (option.headerType)
-				{
-					case 'day':
-					if(program.from < new Date(2011,7,21).getTime()/1000)
+				if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
+					switch (option.headerType)
 					{
-						row.header = _('day_1');
-					}else if(program.from > new Date(2011,7,21).getTime()/1000){
-						row.header = _('day_2');
-					}
-					theDay = row.header;
-					
-					if(i>0){
-						if(row.header == theDay)
+						case 'day':
+						if(program.from < new Date(2011,7,21).getTime()/1000)
 						{
-							delete row.header;
+							row.header = _('day_1');
+						}else if(program.from > new Date(2011,7,21).getTime()/1000){
+							row.header = _('day_2');
 						}
-					}
-					break;
-					
-					case 'time':
-					if(i === 0)
-					{
-						row.header = row.duration;
-					}
-					else if(i>0){
-						if(data[i-1].duration != row.duration)
+						theDay = row.header;
+						
+						if(i>0){
+							if(row.header == theDay)
+							{
+								delete row.header;
+							}
+						}
+						break;
+						
+						case 'time':
+						if(i === 0)
 						{
 							row.header = row.duration;
 						}
-					}
-					break;
-					
-					case 'type':
-					if(i === 0)
-					{
-						row.header = coscup.data.programTypes[row.type];
-					}
-					else if(i>0){
-						if(data[i-1].type != row.type)
-						{
-							row.header = coscup.data.programTypes[row.type];
+						else if(i>0){
+							if(data[i-1].duration != row.duration)
+							{
+								row.header = row.duration;
+							}
 						}
+						break;
+						
+						case 'type':
+						if(i === 0)
+						{
+							row.header = coscup.data.getProgramTypes()[row.type];
+						}
+						else if(i>0){
+							if(data[i-1].type != row.type)
+							{
+								row.header = coscup.data.getProgramTypes()[row.type];
+							}
+						}
+						break;
+						
+						default:
+						break;
 					}
-					break;
-					
-					default:
-					break;
 				}
 				
-				if(coscup.data.isStarred(program.id)){
-					data.push(row);
-				}
+				data.push(row);
 			}
-			
-			if(data.length === 0){
-				data = [{title: _('no_starred_program')}];
-			}
+
 			table.setData(data);
 		}
 		
 		table.addEventListener('click', function(e){
 			coscup.currentProgramTableView = table;
-			if(e.source.className === 'star')
+			Ti.API.info('currentProgramTableView: '+ table.id);
+			if(e.x < 55)
 			{
-				//alert(coscup.data.isStarred(e.source.programId));
-				var unstarCallback = function(){
-					e.source.image = 'images/unstarred.png';
-					table.deleteRow(e.index);
-					if(coscup.data.getStarredPrograms().length == 0){
-						table.setData([{title: _('no_starred_program')}]);
-					}
-				}
-				
-				if(coscup.data.isStarred(e.source.programId)){
-					coscup.data.unstarProgramById(e.source.programId, unstarCallback);
-				}else{
-					coscup.data.starProgramById(e.source.programId, function(){
-						e.source.image = 'images/starred.png';
-					});
-				}
+				Ti.API.info('=>' + e.rowData.programId);
+				table.deleteRow(e.index);
+				coscup.data.unstarProgramById(e.rowData.programId, function(){
+					
+				});
+
 			}else
 			{
 				if(typeof(e.rowData.programId) !== 'undefined'){
@@ -1096,15 +1433,22 @@
 			}
 		});
 		
-		table.showData();
-		
 		Titanium.App.addEventListener('app:starClear', function(){
 			table.setData([{title: _('no_starred_program')}]);
+			Titanium.App.fireEvent('app:toggleNoDataMessage');
+		});
+		
+		Titanium.App.addEventListener('app:starUpdate', function(e){
+			Ti.API.info(table.id + ' => app:starUpdate triggered!');
+			
+			if(coscup.currentProgramTableView != table){
+				table.showData();
+			}
+			Titanium.App.fireEvent('app:toggleNoDataMessage');
 		});
 		
 		return table;
 	};
-	//
 	
 	coscup.ui.createProgramRow = function (program) {
 		var row = Titanium.UI.createTableViewRow({
@@ -1118,10 +1462,10 @@
 		}
 		
 		row.programId = program.id;
-		row.filter = program.name + coscup.data.programTypes[row.type] + coscup.data.programRooms[program.room][coscup.i18n.locale];
+		row.filter = program.name + coscup.data.getProgramTypes()[row.type] + coscup.data.getProgramRooms()[program.room][coscup.i18n.locale];
 		row.type = program.type;
-		row.duration = new Date(program.from*1000).toString("HH:mm") + '-' +new Date(program.to*1000).toString("HH:mm");
-		row.room = coscup.data.programRooms[program.room][coscup.i18n.locale];
+		row.duration = new Date(program.from*1000).hhmm() + '-' +new Date(program.to*1000).hhmm();
+		row.room = coscup.data.getProgramRooms()[program.room][coscup.i18n.locale];
 		
 		var day = new Date(program.from*1000).getDay();
 		row.day = day;
@@ -1157,74 +1501,36 @@
 			break;
 		}
 		 			
-		var starImageView = Titanium.UI.createImageView({
+		row.starImageView = Titanium.UI.createImageView({
 			className: 'star',
 			programId: program.id,
-			width: 30,
-			height: 30,
-			left: 14
+			width: '30dp',
+			height: '30dp',
+			left: '14dp'
 		});
 		
 		//Ti.API.info(coscup.data.isStarred(program.id));
 		if(coscup.data.isStarred(program.id)){
-			starImageView.image = 'images/starred.png';
+			row.starImageView.image = 'images/starred.png';
 		}else{
-			starImageView.image = 'images/unstarred.png';
+			row.starImageView.image = 'images/unstarred.png';
 		}
 		
-		var nameLabel = Titanium.UI.createLabel({
-			text: program.name,
-			textAlign: 'left',
-			color: '#000',
-			font: {
-				fontWeight: 'bold',
-				fontSize: 16
-			},
-			right: 10,
-			top: 30,
-			height: 'auto',
-			left: 60,
-			bottom: 30
-		});
+		var nameLabel = Titanium.UI.createLabel(coscup.style.programNameLabel);
+		nameLabel.text = program.name;
 		
-		var timeRoomLabel = Titanium.UI.createLabel({
-			text: row.day + ' ' + row.duration + ' ' + row.room,
-			textAlign: 'left',
-			color: '#666',
-			font: {
-				fontSize: 14
-			},
-			width: 200,
-			height: 16,
-			left: 60,
-			bottom: 10	
-		});
+		var timeRoomLabel = Titanium.UI.createLabel(coscup.style.timeRoomLabel);
+		timeRoomLabel.text = row.day + ' ' + row.duration + ' ' + row.room;
 		
-		var colorDot = Titanium.UI.createView({
-			backgroundColor: coscup.ui.color['PROGRAM_TYPE_'+program.type],
-			borderRadius: 4,
-			width: 6,
-			height: 6,
-			left: 63,
-			top: 15
-		});
+		var colorDot = Titanium.UI.createView(coscup.style.smallColorDot);
+		colorDot.backgroundColor = coscup.style.color['PROGRAM_TYPE_'+program.type];
 		
-		var programTypeLabel = Titanium.UI.createLabel({
-			text: coscup.data.programTypes[row.type],
-			textAlign: 'left',
-			color: '#666',
-			font: {
-				fontSize: 14
-			},
-			width: 200,
-			height: 16,
-			left: 73,
-			top: 10	
-		});
+		var programTypeLabel = Titanium.UI.createLabel(coscup.style.programTypeLabel);
+		programTypeLabel.text = coscup.data.getProgramTypes()[row.type];
 		
 		row.add(nameLabel);
 		row.add(timeRoomLabel);
-		row.add(starImageView);
+		row.add(row.starImageView);
 		
 		if(row.type > 0)
 		{
@@ -1235,7 +1541,7 @@
 	}
 	
 	coscup.ui.createProgramTypeTableView = function(){
-		var programTypes = coscup.data.programTypes;
+		var programTypes = coscup.data.getProgramTypes();
 		programTypes[0] = _('all_programs');
 		var data = [];
 		for(var i = 0, l = programTypes.length; i < l; i++){
@@ -1246,28 +1552,12 @@
 				backgroundColor: '#fff'
 		        });
 			row.hasChild = true;
-			var nameLabel = Titanium.UI.createLabel({
-				text: programType,
-				textAlign: 'left',
-				color: '#000',
-				font: {
-					fontWeight: 'bold',
-					fontSize: 18
-				},
-				width: 'auto',
-				height: 'auto',
-				left: 36,
-				top: 10,
-				bottom: 10
-			});
+			var nameLabel = Titanium.UI.createLabel(coscup.style.programTypeNameLabel);
+			nameLabel.text = programType;
 			
-			var colorDot = Titanium.UI.createView({
-				backgroundColor: coscup.ui.color['PROGRAM_TYPE_'+i],
-				borderRadius: 7,
-				width: 12,
-				height: 12,
-				left: 10
-			});
+			var colorDot = Titanium.UI.createView(coscup.style.bigColorDot);				
+			colorDot.backgroundColor = coscup.style.color['PROGRAM_TYPE_'+i];
+
 			row.add(colorDot);
 			row.add(nameLabel);	
 			data[i] = row;
@@ -1279,7 +1569,6 @@
 		});
 		
 		table.addEventListener('click', function(e){
-			
 			var programName;
 			if(e.index == 0)
 			{
@@ -1296,7 +1585,7 @@
 	coscup.ui.createWebSummaryWin = function(option){
 		var win = Titanium.UI.createWindow(option);
 		win.scalesPageToFit = true;
-		win.barColor ='#408937';
+		win.barColor = coscup.style.color.barColor;
 		win.navBarHidden = false;
 		win.tabBarHidden = true;
 
@@ -1310,14 +1599,14 @@
 	
 	coscup.ui.createWebWin = function(option){
 		var win = Titanium.UI.createWindow(option);
-		win.barColor = '#408937';
+		win.barColor = coscup.style.color.barColor;
 		win.navBarHidden = false;
 		win.tabBarHidden = true;
 		var webview = Titanium.UI.createWebView({url: option.webUrl});
 		webview.currentUrl = option.webUrl;
 		win.add(webview);
 		
-		if(coscup.osname === 'iphone' || coscup.osname === 'ipad'){
+		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
 			var flexSpace = Titanium.UI.createButton({
 				systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
 			});
