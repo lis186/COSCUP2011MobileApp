@@ -1,18 +1,19 @@
-Welcome to your Appcelerator Titanium Mobile Project
+COSCUP2011 Mobile App
 
-This is a blank project.  Start by editing your application's app.js to 
-make your first mobile project using Titanium.
+使用Titanium Mobile開發的Mobile App，支援iPhone, iPad與Android。
 
+開源人年會COSCUP 2011即將在2011年8月20-21日於台灣台北舉行。
+本軟體提供了參與COSCUP所需要的各項資訊,只需第一次開啓時更新一次就可以離線使用。
 
+功能:
+1. 大會基本資訊,包含活動介紹、地點、贊助單位。
+2. 依照時間或主題瀏覽所有議程。
+3. 可縮放的會場平面圖。
+4. 可將感興趣的議程加上星號。
+5. 使用電子郵件分享已加星號的議程。(iOS版本)
+6. 每日自動更新資訊。
+7. 支援正體中文、簡體中文與英文。
+8. 支援iPad。
 
-----------------------------------
-Stuff our legal folk make us say:
-
-Appcelerator, Appcelerator Titanium and associated marks and logos are 
-trademarks of Appcelerator, Inc. 
-
-Titanium is Copyright (c) 2009-2010 by Appcelerator, Inc. All Rights Reserved.
-
-Titanium is licensed under the Apache Public License (Version 2). Please
-see the LICENSE file for the full license.
-
+官方網站:
+http://coscup.org
