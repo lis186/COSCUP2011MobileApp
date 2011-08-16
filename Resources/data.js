@@ -2,7 +2,6 @@
 	Titanium.include('util.js');
 	coscup.data = {};
 	coscup.data.saveData = function(){
-		Ti.API.info('saveData()');
 		Titanium.App.Properties.setString('lastUpdate', new Date().getTime());
 		Titanium.App.Properties.setString('program', JSON.stringify(coscup.data.program));
 		Titanium.App.Properties.setString('programTypes', JSON.stringify(coscup.data.programTypes));
@@ -15,6 +14,11 @@
 		coscup.data.programTypes = JSON.parse(Titanium.App.Properties.getString('programTypes'));
 		coscup.data.programRooms = JSON.parse(Titanium.App.Properties.getString('programRooms'));
 		coscup.data.starredPrograms = Titanium.App.Properties.getList('starredPrograms',[]);
+		if(coscup.app.osname === 'android'){
+			for( var i = 0; i < coscup.data.starredPrograms.length; i++){
+				coscup.data.starredPrograms[i] = parseInt(coscup.data.starredPrograms[i]);
+			}
+		}
 	}
 	
 	coscup.data.needUpdate = function(){
@@ -106,7 +110,7 @@
 
 	coscup.data.isStarred = function (programId) {
 		if(typeof(coscup.data.starredPrograms) != 'undefined'){
-			if(coscup.data.starredPrograms.indexOf(programId) === -1){
+			if(coscup.data.starredPrograms.indexOf(parseInt(programId)) == -1){
 				return false;
 			}else{
 				return true;
@@ -115,14 +119,12 @@
 	}
 	
 	coscup.data.starProgramById = function (programId, callback) {
-		Ti.API.info('starProgramById('+programId+')')
-		
-		if(coscup.data.starredPrograms.indexOf(programId) === -1){
-			coscup.data.starredPrograms.push(programId);
-			//coscup.data.starredPrograms = coscup.data.starredPrograms.sort();
+		if(coscup.data.starredPrograms.indexOf(parseInt(programId)) == -1 && parseInt(programId) !=NaN){
+			coscup.data.starredPrograms.push(parseInt(programId));
 			Titanium.App.Properties.setList('starredPrograms', coscup.data.starredPrograms);
 			Ti.API.info('=>' + coscup.data.starredPrograms);
-			Titanium.App.fireEvent('app:starUpdate', {id: programId});
+			Ti.API.info('fire app:starUpdate');
+			Titanium.App.fireEvent('app:starUpdate', {id: parseInt(programId)});
 			callback();
 		}else{
 			Ti.API.info('The program already starred!');
@@ -130,15 +132,14 @@
 	}
 	
 	coscup.data.unstarProgramById = function (programId, callback) {
-		Ti.API.info('unstarProgramById('+programId+')')
-		
-		var index = coscup.data.starredPrograms.indexOf(programId);
+		var index = coscup.data.starredPrograms.indexOf(parseInt(programId));
 		if(index >= 0){
 			Ti.API.info(coscup.data.starredPrograms);
 			coscup.data.starredPrograms.splice(index, 1);
 			Ti.API.info('=>' + coscup.data.starredPrograms);
 			Titanium.App.Properties.setList('starredPrograms', coscup.data.starredPrograms);
-			Titanium.App.fireEvent('app:starUpdate', {id: programId});
+			Ti.API.info('fire app:starUpdate');
+			Titanium.App.fireEvent('app:starUpdate', {id: parseInt(programId)});
 			callback();
 		}else{
 			Ti.API.info('The program not yet starred!');
