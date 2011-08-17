@@ -742,9 +742,9 @@
 		if(coscup.app.osname === 'iphone' || coscup.app.osname === 'ipad'){
 			if(coscup.app.osname === 'ipad'){
 				var floorPlan3F = Titanium.UI.createImageView(coscup.style.ipad.floorPlanImageView);
-				floorPlan3F.image = 'images/floorplan3f_high.png';
+				floorPlan3F.image = 'images/floorplan3f_h.png';
 				var floorPlan4F = Titanium.UI.createImageView(coscup.style.ipad.floorPlanImageView);
-				floorPlan4F.image = 'images/floorplan4f_high.png';
+				floorPlan4F.image = 'images/floorplan4f_h.png';
 				/*
 				floorPlan3F.addEventListener('click', function(e){
 					var roomId;
@@ -782,9 +782,9 @@
 					*/	
 			}else if(coscup.app.osname === 'iphone'){
 				var floorPlan3F = Titanium.UI.createImageView(coscup.style.iphone.floorPlanImageView);
-				floorPlan3F.image = 'images/floorplan3f_high.png';
+				floorPlan3F.image = 'images/floorplan3f_h.png';
 				var floorPlan4F = Titanium.UI.createImageView(coscup.style.iphone.floorPlanImageView);
-				floorPlan4F.image = 'images/floorplan4f_high.png';
+				floorPlan4F.image = 'images/floorplan4f_h.png';
 				/*
 				floorPlan3F.addEventListener('click', function(e){
 					if((e.x > 76 && e.y > 125) && (e.x < 120 && e.y < 200)){
@@ -885,8 +885,8 @@
 				floor4FContainer.add(floor4FLabel);
 				floor4FContainer.add(floorPlan4F);
 				
-				floorPlan3F.image = 'images/floorplan3f_high.png';
-				floorPlan4F.image = 'images/floorplan4f_high.png';
+				floorPlan3F.image = 'images/floorplan3f_h.png';
+				floorPlan4F.image = 'images/floorplan4f_h.png';
 				/*
 				floorPlan3F.addEventListener('click', function(e){
 					if((e.x > 152 && e.y > 252) && (e.x < 240 && e.y < 396)){
@@ -965,12 +965,12 @@
 				var floorPlan4F = Titanium.UI.createImageView(coscup.style.android.floorPlanImageView);
 				
 				if(Titanium.Platform.displayCaps.platformWidth > 320){
-					floorPlan3F.image = 'images/floorplan3f_high.png';
-					floorPlan4F.image = 'images/floorplan4f_high.png';
+					floorPlan3F.image = 'images/floorplan3f_h.png';
+					floorPlan4F.image = 'images/floorplan4f_h.png';
 					
 				}else{
-					floorPlan3F.image = 'images/floorplan3f.png';
-					floorPlan4F.image = 'images/floorplan4f.png';				
+					floorPlan3F.image = 'images/floorplan3f_n.png';
+					floorPlan4F.image = 'images/floorplan4f_n.png';				
 				}
 				/*
 				floorPlan3F.addEventListener('click', function(e){
