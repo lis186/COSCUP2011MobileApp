@@ -1160,13 +1160,13 @@
 			});
 			
 			win.rightNavButton = actionButtion;
+		}else if(coscup.app.osname === 'android'){
+			//TODO: Add Menu for Android
 		}
-
 		var table =  coscup.ui.createStarredProgramTableView({searchbar: false}, coscup.data.program);
 		
 		win.add(table);
 		win.add(noDataView);
-		//table.showData();
 		
 		toggleNoDataView();
 		
