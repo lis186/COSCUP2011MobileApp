@@ -180,6 +180,11 @@
 			'zh-cn': 'plurk',
 			'zh-tw': 'plurk'			
 		},
+		'IRC': {
+			'en': 'IRC',
+			'zh-cn': 'IRC',
+			'zh-tw': 'IRC'			
+		},
 		'floor_3F': {
 			'en': '中央研究院人文社會科學館 3樓',
 			'zh-cn': '中央研究院人文社会科学馆 3楼',
@@ -289,6 +294,11 @@
 			'en': 'Ongoing event',
 			'zh-cn': '进行中的活动',
 			'zh-tw': '進行中的活動'			
+		},
+		'seat_plan': {
+			'en': ' seat plan',
+			'zh-cn': '座位表',
+			'zh-tw': '座位表'	
 		},
 	}
 })();

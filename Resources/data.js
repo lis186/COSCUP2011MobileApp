@@ -1,6 +1,18 @@
 (function () {
 	Titanium.include('util.js');
 	coscup.data = {};
+	coscup.data.seatPlanUrl = [
+	null,
+	'http://goo.gl/v2N4E',
+	'http://goo.gl/iNocy',
+	'http://goo.gl/riyBd',
+	'http://goo.gl/GZsYz'
+	];
+	
+	coscup.data.getSeatPlanUrl = function(roomId){
+		return coscup.data.seatPlanUrl[roomId];
+	}
+	
 	coscup.data.saveData = function(){
 		Titanium.App.Properties.setString('lastUpdate', new Date().getTime());
 		Titanium.App.Properties.setString('program', JSON.stringify(coscup.data.program));
