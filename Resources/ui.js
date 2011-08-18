@@ -757,31 +757,26 @@
 				floorPlan4F.image = 'images/floorplan4f_h.png';
 				
 				floorPlan3F.addEventListener('click', function(e){
-					var roomId;
 					if((e.x > 152 && e.y > 252) && (e.x < 240 && e.y < 396)){
 						Ti.API.info('conference room 2');
-						roomId = 3;					
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(3));	
 					}else if((e.x > 252 && e.y > 228) && (e.x < 380 && e.y < 390)){
 						Ti.API.info('international conference room');
-						roomId = 1;
-
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));
 					}else if((e.x > 376 && e.y > 274) && (e.x < 495 && e.y < 404)){
 						Ti.API.info('conference room 1');
-						roomId = 2;	
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(2));
 					}
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)}));
 				});
 				
 				floorPlan4F.addEventListener('click', function(e){
-					var roomId;
 					if((e.x > 236 && e.y > 240) && (e.x < 409 && e.y < 470)){
 						Ti.API.info('international conference room');
-						roomId = 1;
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));
 					}else if((e.x > 249 && e.y > 134) && (e.x < 373 && e.y < 218)){
 						Ti.API.info('conference room 3');
-						roomId = 4;
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(4));
 					}
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)}));
 				});
 						
 			}else if(coscup.app.osname === 'iphone'){
@@ -791,30 +786,26 @@
 				floorPlan4F.image = 'images/floorplan4f_h.png';
 				
 				floorPlan3F.addEventListener('click', function(e){
-					var roomId;
 					if((e.x > 76 && e.y > 125) && (e.x < 120 && e.y < 200)){
 						Ti.API.info('conference room 2');
-						roomId = 3;
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(3));
 					}else if((e.x > 125 && e.y > 114) && (e.x < 190 && e.y < 180)){
 						Ti.API.info('international conference room');
-						roomId = 1;
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));
 					}else if((e.x > 76 && e.y > 137) && (e.x < 250 && e.y < 200)){
 						Ti.API.info('conference room 1');
-						roomId = 2;
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(2));
 					}
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)}));
 				});
 				
 				floorPlan4F.addEventListener('click', function(e){
-					var roomId;
 					if((e.x > 118 && e.y > 120) && (e.x < 204 && e.y < 285)){
 						Ti.API.info('international conference room');
-						roomId = 1;
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));
 					}else if((e.x > 125 && e.y > 67) && (e.x < 182 && e.y < 109)){
 						Ti.API.info('conference room 3');
-						roomId = 4;
+						coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(4));
 					}
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)}));
 				});
 				
 			}
@@ -895,35 +886,87 @@
 				
 				floorPlan3F.image = 'images/floorplan3f_h.png';
 				floorPlan4F.image = 'images/floorplan4f_h.png';
-
-				floorPlan3F.addEventListener('click', function(e){
-					var roomId;
-					if((e.x > 152 && e.y > 252) && (e.x < 240 && e.y < 396)){
-						Ti.API.info('conference room 2');
-						roomId = 3;					
-					}else if((e.x > 252 && e.y > 228) && (e.x < 380 && e.y < 390)){
-						Ti.API.info('international conference room');
-						roomId = 1;
-
-					}else if((e.x > 376 && e.y > 274) && (e.x < 495 && e.y < 404)){
-						Ti.API.info('conference room 1');
-						roomId = 2;	
-					}
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)}));
+	
+				var floor3Froom1View = Titanium.UI.createView({
+					//backgroundColor: '#00f',
+					width: '140dp',
+					height: '162dp',
+					left: '250dp',
+					top: '230dp',
+					opacity: 0.5
 				});
 				
-				floorPlan4F.addEventListener('click', function(e){
-					var roomId;
-					if((e.x > 236 && e.y > 240) && (e.x < 409 && e.y < 470)){
-						Ti.API.info('international conference room');
-						roomId = 1;
-					}else if((e.x > 249 && e.y > 134) && (e.x < 373 && e.y < 218)){
-						Ti.API.info('conference room 3');
-						roomId = 4;
-					}
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)}));
+				var floor4Froom1View = Titanium.UI.createView({
+					//backgroundColor: '#00f',
+					width: '152dp',
+					height: '220dp',
+					left: '244dp',
+					top: '240dp',
+					opacity: 0.5
+				});
+				
+				var room2View = Titanium.UI.createView({
+					//backgroundColor: '#0f0',
+					width: '120dp',
+					height: '144dp',
+					left: '400dp',
+					top: '240dp',
+					opacity: 0.5
 				});
 
+				var room3View = Titanium.UI.createView({
+					//backgroundColor: '#f00',
+					width: '120dp',
+					height: '144dp',
+					left: '120dp',
+					top: '240dp',
+					opacity: 0.5
+				});
+				
+				var room4View = Titanium.UI.createView({
+					//backgroundColor: '#000',
+					width: '152dp',
+					height: '140dp',
+					left: '244dp',
+					top: '100dp',
+					opacity: 0.5
+				});
+				
+				floor3Froom1View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));	
+				});
+				
+				floor4Froom1View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));	
+				});
+				
+				room2View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(2));	
+				});
+				
+				room3View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(3));	
+				});
+				
+				room4View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(4));	
+				});
+
+				
+				floor3FContainer.add(floorPlan3F);
+				floor4FContainer.add(floorPlan4F);
+			
+				//3f
+				floor3FContainer.add(floor3Froom1View);
+				floor3FContainer.add(room2View);
+				floor3FContainer.add(room3View);
+				//4f
+				floor4FContainer.add(floor4Froom1View);
+				floor4FContainer.add(room4View);
+				
+				floor3FContainer.show();
+				floor4FContainer.hide();
+				
 				win.add(floor3FContainer);
 				win.add(floor4FContainer);
 				
@@ -974,10 +1017,23 @@
 				switchLayout(Titanium.UI.orientation);
 				
 			}else {
+				var floor3FContainer = Titanium.UI.createView({
+					width: '320dp',
+					height: '320dp',
+					backgroundColor: '#fff',
+					visible: true
+				});
+
+				var floor4FContainer = Titanium.UI.createView({
+					width: '320dp',
+					height: '320dp',
+					backgroundColor: '#fff',
+					visible: false
+				});
 				var floorPlan3F = Titanium.UI.createImageView(coscup.style.android.floorPlanImageView);		
 				var floorPlan4F = Titanium.UI.createImageView(coscup.style.android.floorPlanImageView);
 				
-				if(Titanium.Platform.displayCaps.platformWidth > 320){
+				if(Titanium.Platform.displayCaps.platformWidth >= 320){
 					floorPlan3F.image = 'images/floorplan3f_h.png';
 					floorPlan4F.image = 'images/floorplan4f_h.png';
 					
@@ -991,41 +1047,92 @@
 				var floorPlan4F = Titanium.UI.createImageView(coscup.style.iphone.floorPlanImageView);
 				floorPlan4F.image = 'images/floorplan4f_h.png';
 				
-				floorPlan3F.addEventListener('click', function(e){
-					var roomId;
-					if((e.x > 76 && e.y > 125) && (e.x < 120 && e.y < 200)){
-						Ti.API.info('conference room 2');
-						roomId = 3;
-					}else if((e.x > 125 && e.y > 114) && (e.x < 190 && e.y < 180)){
-						Ti.API.info('international conference room');
-						roomId = 1;
-					}else if((e.x > 76 && e.y > 137) && (e.x < 250 && e.y < 200)){
-						Ti.API.info('conference room 1');
-						roomId = 2;
-					}
-					alert(roomId);
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: _('seat_plan'), webUrl: coscup.data.seatPlanUrl[roomId]}));
+				
+				var floor3Froom1View = Titanium.UI.createView({
+					//backgroundColor: '#00f',
+					width: '70dp',
+					height: '81dp',
+					left: '125dp',
+					top: '115dp',
+					opacity: 0.5
 				});
 				
-				floorPlan4F.addEventListener('click', function(e){
-					var roomId;
-					if((e.x > 118 && e.y > 120) && (e.x < 204 && e.y < 285)){
-						Ti.API.info('international conference room');
-						roomId = 1;
-					}else if((e.x > 125 && e.y > 67) && (e.x < 182 && e.y < 109)){
-						Ti.API.info('conference room 3');
-						roomId = 4;
-					}
-					coscup.appTabGroup.activeTab.open(coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)}));
+				var floor4Froom1View = Titanium.UI.createView({
+					//backgroundColor: '#00f',
+					width: '76dp',
+					height: '110dp',
+					left: '122dp',
+					top: '120dp',
+					opacity: 0.5
+				});
+				
+				var room2View = Titanium.UI.createView({
+					//backgroundColor: '#0f0',
+					width: '60dp',
+					height: '72dp',
+					left: '200dp',
+					top: '120dp',
+					opacity: 0.5
 				});
 
-				floorPlan3F.top = '50dp';
-				floorPlan4F.top = '50dp';
+				var room3View = Titanium.UI.createView({
+					//backgroundColor: '#f00',
+					width: '60dp',
+					height: '72dp',
+					left: '60dp',
+					top: '120dp',
+					opacity: 0.5
+				});
 				
-				win.add(floorPlan4F);
-				win.add(floorPlan3F);
-				floorPlan3F.show();
-				floorPlan4F.hide();
+				var room4View = Titanium.UI.createView({
+					//backgroundColor: '#000',
+					width: '76dp',
+					height: '70dp',
+					left: '122dp',
+					top: '50dp',
+					opacity: 0.5
+				});
+				
+				floor3Froom1View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));	
+				});
+				
+				floor4Froom1View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(1));	
+				});
+				
+				room2View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(2));	
+				});
+				
+				room3View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(3));	
+				});
+				
+				room4View.addEventListener('click', function(){
+					coscup.appTabGroup.activeTab.open(coscup.ui.createSeatPlanWin(4));	
+				});
+				
+				floor3FContainer.top = '50dp';
+				floor4FContainer.top = '50dp';
+				
+				win.add(floor4FContainer);
+				win.add(floor3FContainer);
+				
+				floor3FContainer.add(floorPlan3F);
+				floor4FContainer.add(floorPlan4F);
+			
+				//3f
+				floor3FContainer.add(floor3Froom1View);
+				floor3FContainer.add(room2View);
+				floor3FContainer.add(room3View);
+				//4f
+				floor4FContainer.add(floor4Froom1View);
+				floor4FContainer.add(room4View);
+				
+				floor3FContainer.show();
+				floor4FContainer.hide();
+				
 				
 				var buttonContainer = Titanium.UI.createView({
 					width: '320dp',
@@ -1055,16 +1162,18 @@
 				win.add(buttonContainer);
 				
 				floor3FButton.addEventListener('click', function(e){
-					floorPlan3F.show();
+					Ti.API.info('3F');
+					floor3FContainer.show();
+					floor4FContainer.hide();
 					floor3FButton.enabled = false;
-					floorPlan4F.hide();
 					floor4FButton.enabled = true;
 				});
 			
 				floor4FButton.addEventListener('click', function(e){
-					floorPlan3F.hide();
+					Ti.API.info('4F');
+					floor3FContainer.hide();
+					floor4FContainer.show();
 					floor3FButton.enabled = true;
-					floorPlan4F.show();
 					floor4FButton.enabled = false;
 				});			
 			}	
@@ -1073,7 +1182,15 @@
 		return win;
 	}
 
-	
+	coscup.ui.createSeatPlanWin = function(roomId){
+		//alert('createSeatPlanWin('+roomId+')');
+		Ti.API.info(coscup.data.getProgramRooms());
+		Ti.API.info(coscup.data.getProgramRooms()[roomId]);
+		Ti.API.info(coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]);
+		Ti.API.info(coscup.data.getSeatPlanUrl(roomId));
+		return coscup.ui.createWebWin({title: coscup.data.getProgramRooms()[roomId][coscup.i18n.locale]+_('seat_plan'), webUrl: coscup.data.getSeatPlanUrl(roomId)});
+	}
+		
 	coscup.ui.createStarredWin = function(){
 		var win = Titanium.UI.createWindow({
 			barColor: coscup.style.color.barColor,

@@ -10,7 +10,7 @@
 	];
 	
 	coscup.data.getSeatPlanUrl = function(roomId){
-		return coscup.data.seatPlanUrl[roomId];
+		return coscup.data.seatPlanUrl[parseInt(roomId)];
 	}
 	
 	coscup.data.saveData = function(){
